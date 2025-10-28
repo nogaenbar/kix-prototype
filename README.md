@@ -1,1 +1,1 @@
-# vibe-code-learning
+# kix-prototype
