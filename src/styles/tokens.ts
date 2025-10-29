@@ -160,53 +160,66 @@ export const shadows = {
 
 /**
  * Icon Button Tokens
- * Pre-configured token sets for icon button variants
- * Note: For inline styles with React state, we use direct color values
- * instead of CSS variables to ensure proper rendering
+ * 
+ * The icon button component uses CSS classes defined in globals.css
+ * that reference our CSS variables. This ensures:
+ * - Single source of truth (CSS variables in globals.css)
+ * - Proper hover/active states (handled by CSS pseudo-classes)
+ * - Themeable (change CSS variables, all buttons update)
+ * - Better performance (no React state for styling)
+ * 
+ * CSS Classes:
+ * - Variants: .icon-button-filled, .icon-button-outlined, .icon-button-transparent
+ * - Sizes: .icon-button-lg, .icon-button-md, .icon-button-sm
+ * 
+ * These classes use the following CSS variables:
+ * - var(--primary-700), var(--primary-800), var(--primary-900)
+ * - var(--icon-light), var(--icon-primary)
+ * - var(--border-primary-subtle)
+ * - var(--bg-hover-subtle), var(--bg-pressed-subtle)
  */
 export const iconButton = {
-  filled: {
-    background: {
-      default: '#407a3f',  // primary-700
-      hover: '#365528',    // primary-800
-      pressed: '#24391b',  // primary-900
+  // Documentation of CSS class mappings
+  classes: {
+    variants: {
+      filled: 'icon-button-filled',
+      outlined: 'icon-button-outlined',
+      transparent: 'icon-button-transparent',
     },
-    foreground: '#f5faf5',  // icon-light
-    border: 'transparent',
+    sizes: {
+      lg: 'icon-button-lg',  // 36x36, icon 20x20, radius 12px
+      md: 'icon-button-md',  // 32x32, icon 16x16, radius 12px
+      sm: 'icon-button-sm',  // 24x24, icon 12x12, radius 8px
+    },
   },
-  outlined: {
-    background: {
-      default: 'transparent',
-      hover: '#deeedd',    // bg-hover-subtle
-      pressed: '#bcdcbc',  // bg-pressed-subtle
+  // CSS variable references (for documentation)
+  cssVars: {
+    filled: {
+      background: {
+        default: 'var(--primary-700)',
+        hover: 'var(--primary-800)',
+        pressed: 'var(--primary-900)',
+      },
+      foreground: 'var(--icon-light)',
+      border: 'transparent',
     },
-    foreground: '#407a3f',  // icon-primary
-    border: 'rgba(64, 122, 63, 0.2)',  // border-primary-subtle
-  },
-  transparent: {
-    background: {
-      default: 'transparent',
-      hover: '#deeedd',    // bg-hover-subtle
-      pressed: '#bcdcbc',  // bg-pressed-subtle
+    outlined: {
+      background: {
+        default: 'transparent',
+        hover: 'var(--bg-hover-subtle)',
+        pressed: 'var(--bg-pressed-subtle)',
+      },
+      foreground: 'var(--icon-primary)',
+      border: 'var(--border-primary-subtle)',
     },
-    foreground: '#407a3f',  // icon-primary
-    border: 'transparent',
-  },
-  size: {
-    sm: {
-      dimension: '24px',
-      iconSize: '12px',
-      radius: '8px',   // radius.default
-    },
-    md: {
-      dimension: '32px',
-      iconSize: '16px',
-      radius: '12px',  // radius.md
-    },
-    lg: {
-      dimension: '36px',
-      iconSize: '20px',
-      radius: '12px',  // radius.md
+    transparent: {
+      background: {
+        default: 'transparent',
+        hover: 'var(--bg-hover-subtle)',
+        pressed: 'var(--bg-pressed-subtle)',
+      },
+      foreground: 'var(--icon-primary)',
+      border: 'transparent',
     },
   },
 } as const;
@@ -289,8 +302,8 @@ export type RadiusToken = keyof typeof radius;
 export type TypographyToken = keyof typeof typography.size;
 export type ShadowToken = keyof typeof shadows;
 
-export type IconButtonVariant = keyof typeof iconButton;
-export type IconButtonSize = keyof typeof iconButton.size;
+export type IconButtonVariant = keyof typeof iconButton.classes.variants;
+export type IconButtonSize = keyof typeof iconButton.classes.sizes;
 export type ButtonVariant = keyof typeof button;
 export type ButtonSize = keyof typeof button.size;
 

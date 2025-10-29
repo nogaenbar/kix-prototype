@@ -583,3 +583,103 @@
 .kix-data-table .flex.items-center.gap-1 {
   gap: 4px;
 }
+
+/* ============================================================================
+   ICON BUTTON COMPONENT STYLES
+   Using CSS variables for single source of truth and theming
+   ============================================================================ */
+
+/* === Filled Variant === */
+.icon-button-filled {
+  background-color: var(--primary-700);
+  color: var(--icon-light);
+  border-color: transparent;
+}
+
+.icon-button-filled:hover:not(:disabled) {
+  background-color: var(--primary-800);
+}
+
+.icon-button-filled:active:not(:disabled) {
+  background-color: var(--primary-900);
+}
+
+.icon-button-filled:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === Outlined Variant === */
+.icon-button-outlined {
+  background-color: transparent;
+  color: var(--icon-primary);
+  border-color: var(--border-primary-subtle);
+}
+
+.icon-button-outlined:hover:not(:disabled) {
+  background-color: var(--bg-hover-subtle);
+}
+
+.icon-button-outlined:active:not(:disabled) {
+  background-color: var(--bg-pressed-subtle);
+}
+
+.icon-button-outlined:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === Transparent Variant === */
+.icon-button-transparent {
+  background-color: transparent;
+  color: var(--icon-primary);
+  border-color: transparent;
+}
+
+.icon-button-transparent:hover:not(:disabled) {
+  background-color: var(--bg-hover-subtle);
+}
+
+.icon-button-transparent:active:not(:disabled) {
+  background-color: var(--bg-pressed-subtle);
+}
+
+.icon-button-transparent:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === Size Variants === */
+.icon-button-lg {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+
+.icon-button-md {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+}
+
+.icon-button-sm {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+}
+
+/* === Icon Sizing (applied to icon children) === */
+.icon-button-lg svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-button-md svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-button-sm svg {
+  width: 12px;
+  height: 12px;
+}
