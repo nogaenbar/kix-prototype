@@ -77,15 +77,27 @@ const variantStyles = {
 // Map sizes to dimensions using design tokens
 const sizeStyles = {
   lg: {
-    button: { width: iconButtonTokens.size.lg.dimension, height: iconButtonTokens.size.lg.dimension },
+    button: { 
+      width: iconButtonTokens.size.lg.dimension, 
+      height: iconButtonTokens.size.lg.dimension,
+      borderRadius: iconButtonTokens.size.lg.radius,
+    },
     icon: { width: iconButtonTokens.size.lg.iconSize, height: iconButtonTokens.size.lg.iconSize },
   },
   md: {
-    button: { width: iconButtonTokens.size.md.dimension, height: iconButtonTokens.size.md.dimension },
+    button: { 
+      width: iconButtonTokens.size.md.dimension, 
+      height: iconButtonTokens.size.md.dimension,
+      borderRadius: iconButtonTokens.size.md.radius,
+    },
     icon: { width: iconButtonTokens.size.md.iconSize, height: iconButtonTokens.size.md.iconSize },
   },
   sm: {
-    button: { width: iconButtonTokens.size.sm.dimension, height: iconButtonTokens.size.sm.dimension },
+    button: { 
+      width: iconButtonTokens.size.sm.dimension, 
+      height: iconButtonTokens.size.sm.dimension,
+      borderRadius: iconButtonTokens.size.sm.radius,
+    },
     icon: { width: iconButtonTokens.size.sm.iconSize, height: iconButtonTokens.size.sm.iconSize },
   },
 } as const;

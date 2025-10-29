@@ -161,50 +161,52 @@ export const shadows = {
 /**
  * Icon Button Tokens
  * Pre-configured token sets for icon button variants
+ * Note: For inline styles with React state, we use direct color values
+ * instead of CSS variables to ensure proper rendering
  */
 export const iconButton = {
   filled: {
     background: {
-      default: colors.primary[700],
-      hover: colors.primary[800],
-      pressed: colors.primary[900],
+      default: '#407a3f',  // primary-700
+      hover: '#365528',    // primary-800
+      pressed: '#24391b',  // primary-900
     },
-    foreground: colors.icon.light,
+    foreground: '#f5faf5',  // icon-light
     border: 'transparent',
   },
   outlined: {
     background: {
       default: 'transparent',
-      hover: colors.background.hoverSubtle,
-      pressed: colors.background.pressedSubtle,
+      hover: '#deeedd',    // bg-hover-subtle
+      pressed: '#bcdcbc',  // bg-pressed-subtle
     },
-    foreground: colors.icon.primary,
-    border: colors.border.primarySubtle,
+    foreground: '#407a3f',  // icon-primary
+    border: 'rgba(64, 122, 63, 0.2)',  // border-primary-subtle
   },
   transparent: {
     background: {
       default: 'transparent',
-      hover: colors.background.hoverSubtle,
-      pressed: colors.background.pressedSubtle,
+      hover: '#deeedd',    // bg-hover-subtle
+      pressed: '#bcdcbc',  // bg-pressed-subtle
     },
-    foreground: colors.icon.primary,
+    foreground: '#407a3f',  // icon-primary
     border: 'transparent',
   },
   size: {
     sm: {
       dimension: '24px',
       iconSize: '12px',
-      radius: radius.default,
+      radius: '8px',   // radius.default
     },
     md: {
       dimension: '32px',
       iconSize: '16px',
-      radius: radius.md,
+      radius: '12px',  // radius.md
     },
     lg: {
       dimension: '36px',
       iconSize: '20px',
-      radius: radius.md,
+      radius: '12px',  // radius.md
     },
   },
 } as const;
