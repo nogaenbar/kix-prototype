@@ -63,6 +63,22 @@
   --shadow-popover:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* === ADDITIONAL CORE TOKENS === */
+  
+  /* Icon Colors (Used in button components) */
+  --icon-light: #f5faf5; /* Light green for filled button icons */
+  --icon-primary: #407a3f; /* Same as primary-700, for outlined/ghost icons */
+  --icon-disabled: #969696; /* Gray for disabled states */
+  
+  /* Border Colors (Used in button/input components) */
+  --border-primary-subtle: rgba(64, 122, 63, 0.2); /* 20% opacity primary for outlined buttons */
+  --border-disabled: #cdcdcd; /* Gray border for disabled states */
+  
+  /* Background States (Used in interactive components) */
+  --bg-hover-subtle: #deeedd; /* Light green hover for outlined/transparent buttons */
+  --bg-pressed-subtle: #bcdcbc; /* Slightly darker pressed state */
+  --bg-disabled-overlay: rgba(205, 205, 205, 0.48); /* 48% gray overlay for disabled */
 }
 
 /* KIX Soft Theme - Default and only theme */
