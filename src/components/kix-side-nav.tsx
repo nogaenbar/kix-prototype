@@ -5,7 +5,7 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { Button } from "./ui/button";
+import { IconButton } from "./ui/icon-button";
 import { Badge } from "./ui/badge";
 import {
   Tooltip,
@@ -764,14 +764,14 @@ export function KIXSideNav({
                 </div>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
+                    <IconButton
+                      variant="outlined"
+                      size="lg"
                       onClick={toggleExpanded}
-                      className="bg-white rounded-[12px] w-[36px] h-[36px] hover:bg-white/90"
+                      aria-label="Collapse sidebar"
                     >
-                      <PanelLeftClose size={16} className="text-slate-500" />
-                    </Button>
+                      <PanelLeftClose />
+                    </IconButton>
                   </TooltipTrigger>
                   <TooltipContent side="right">
                     Collapse sidebar
@@ -782,14 +782,14 @@ export function KIXSideNav({
               <div className="w-full flex items-center justify-center">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
+                    <IconButton
+                      variant="outlined"
+                      size="lg"
                       onClick={toggleExpanded}
-                      className="bg-white rounded-[12px] w-[36px] h-[36px] hover:bg-white/90"
+                      aria-label="Expand sidebar"
                     >
-                      <PanelLeft size={16} className="text-slate-500" />
-                    </Button>
+                      <PanelLeft />
+                    </IconButton>
                   </TooltipTrigger>
                   <TooltipContent side="right">
                     Expand sidebar

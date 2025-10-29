@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { IconButton } from "./ui/icon-button";
 import { Input } from "./ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Search, ChevronDown, Plus, Settings, HelpCircle, Bell, User, MessageSquare, MoreHorizontal } from "lucide-react";
@@ -48,26 +48,26 @@ export function KIXTopBar({ title = "Dashboard", className = "" }: KIXTopBarProp
         </div>
 
         {/* Icon Buttons Container - Right Side */}
-        <div className="flex gap-1 h-[36px] items-center" data-name="Container">
+        <div className="flex gap-1 items-center" data-name="Container">
           {/* Message Square Icon */}
-          <Button variant="outline" size="icon" className="kix-topbar-icon">
-            <MessageSquare size={16} />
-          </Button>
+          <IconButton variant="outlined" size="lg" aria-label="Messages">
+            <MessageSquare />
+          </IconButton>
 
           {/* Bell Icon */}
-          <Button variant="outline" size="icon" className="kix-topbar-icon">
-            <Bell size={16} />
-          </Button>
+          <IconButton variant="outlined" size="lg" aria-label="Notifications">
+            <Bell />
+          </IconButton>
 
           {/* Help Circle Icon */}
-          <Button variant="outline" size="icon" className="kix-topbar-icon">
-            <HelpCircle size={16} />
-          </Button>
+          <IconButton variant="outlined" size="lg" aria-label="Help">
+            <HelpCircle />
+          </IconButton>
 
           {/* User Icon */}
-          <Button variant="outline" size="icon" className="kix-topbar-icon">
-            <User size={16} />
-          </Button>
+          <IconButton variant="outlined" size="lg" aria-label="User menu">
+            <User />
+          </IconButton>
         </div>
       </div>
     </div>

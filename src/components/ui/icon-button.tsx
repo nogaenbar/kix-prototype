@@ -3,20 +3,36 @@ import { Slot } from "@radix-ui/react-slot@1.1.2";
 import { cva, type VariantProps } from "class-variance-authority@0.7.1";
 
 import { cn } from "./utils";
-import { iconButton as iconButtonTokens } from "@/styles/tokens";
+
+/**
+ * KIX IconButton Component - Pure Tailwind Implementation
+ * Migrated from inline styles to pure Tailwind classes
+ * 
+ * SIZES:
+ * - Large: 36x36px, 20x20px icons, 12px radius
+ * - Medium: 32x32px, 16x16px icons, 12px radius
+ * - Small: 24x24px, 12x12px icons, 8px radius
+ * 
+ * VARIANTS:
+ * - Filled: Primary background with light text
+ * - Outlined: Transparent with border and primary text
+ * - Transparent: Transparent with primary text (no border)
+ */
 
 const iconButtonVariants = cva(
   [
-    "inline-flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer border",
+    "inline-flex items-center justify-center shrink-0",
+    "transition-colors duration-200 ease-in-out",
+    "cursor-pointer border border-solid",
     "disabled:pointer-events-none disabled:opacity-50",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring",
   ].join(" "),
   {
     variants: {
       variant: {
-        filled: "",
-        outlined: "",
-        transparent: "",
+        filled: "text-[#f5faf5] border-transparent",
+        outlined: "text-[#407a3f] border-[rgba(64,122,63,0.2)]",
+        transparent: "text-[#407a3f] border-transparent",
       },
       size: {
         lg: "rounded-[12px]",
@@ -31,75 +47,37 @@ const iconButtonVariants = cva(
   },
 );
 
-// Variant styles using design tokens
-const variantStyles = {
+// Size mapping for button dimensions
+const buttonSizeMap = {
+  lg: { width: '36px', height: '36px', minWidth: '36px', minHeight: '36px', borderRadius: '12px' },
+  md: { width: '32px', height: '32px', minWidth: '32px', minHeight: '32px', borderRadius: '12px' },
+  sm: { width: '24px', height: '24px', minWidth: '24px', minHeight: '24px', borderRadius: '8px' },
+} as const;
+
+// Variant color mapping for hover/active states
+const variantColorMap = {
   filled: {
-    initial: {
-      backgroundColor: iconButtonTokens.filled.background.default,
-      color: iconButtonTokens.filled.foreground,
-      borderColor: iconButtonTokens.filled.border,
-    },
-    hover: {
-      backgroundColor: iconButtonTokens.filled.background.hover,
-    },
-    active: {
-      backgroundColor: iconButtonTokens.filled.background.pressed,
-    },
+    default: '#407a3f',
+    hover: '#365528',
+    active: '#24391b',
   },
   outlined: {
-    initial: {
-      backgroundColor: iconButtonTokens.outlined.background.default,
-      color: iconButtonTokens.outlined.foreground,
-      borderColor: iconButtonTokens.outlined.border,
-    },
-    hover: {
-      backgroundColor: iconButtonTokens.outlined.background.hover,
-    },
-    active: {
-      backgroundColor: iconButtonTokens.outlined.background.pressed,
-    },
+    default: 'transparent',
+    hover: '#deeedd',
+    active: '#bcdcbc',
   },
   transparent: {
-    initial: {
-      backgroundColor: iconButtonTokens.transparent.background.default,
-      color: iconButtonTokens.transparent.foreground,
-      borderColor: iconButtonTokens.transparent.border,
-    },
-    hover: {
-      backgroundColor: iconButtonTokens.transparent.background.hover,
-    },
-    active: {
-      backgroundColor: iconButtonTokens.transparent.background.pressed,
-    },
+    default: 'transparent',
+    hover: '#deeedd',
+    active: '#bcdcbc',
   },
 } as const;
 
-// Map sizes to dimensions using design tokens
-const sizeStyles = {
-  lg: {
-    button: { 
-      width: iconButtonTokens.size.lg.dimension, 
-      height: iconButtonTokens.size.lg.dimension,
-      borderRadius: iconButtonTokens.size.lg.radius,
-    },
-    icon: { width: iconButtonTokens.size.lg.iconSize, height: iconButtonTokens.size.lg.iconSize },
-  },
-  md: {
-    button: { 
-      width: iconButtonTokens.size.md.dimension, 
-      height: iconButtonTokens.size.md.dimension,
-      borderRadius: iconButtonTokens.size.md.radius,
-    },
-    icon: { width: iconButtonTokens.size.md.iconSize, height: iconButtonTokens.size.md.iconSize },
-  },
-  sm: {
-    button: { 
-      width: iconButtonTokens.size.sm.dimension, 
-      height: iconButtonTokens.size.sm.dimension,
-      borderRadius: iconButtonTokens.size.sm.radius,
-    },
-    icon: { width: iconButtonTokens.size.sm.iconSize, height: iconButtonTokens.size.sm.iconSize },
-  },
+// Icon size mapping for React.cloneElement
+const iconSizeMap = {
+  lg: { width: '20px', height: '20px' },
+  md: { width: '16px', height: '16px' },
+  sm: { width: '12px', height: '12px' },
 } as const;
 
 export interface IconButtonProps
@@ -109,45 +87,41 @@ export interface IconButtonProps
 }
 
 const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ className, variant = "filled", size = "md", asChild = false, children, style, ...props }, ref) => {
+  ({ className, variant = "filled", size = "md", asChild = false, children, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     const buttonSize = size || "md";
     const buttonVariant = variant || "filled";
-    const sizeStyle = sizeStyles[buttonSize];
     const [isHovered, setIsHovered] = React.useState(false);
     const [isActive, setIsActive] = React.useState(false);
     
-    // Get the appropriate variant styles
-    const currentVariantStyles = variantStyles[buttonVariant];
+    // Get colors for current state
+    const colors = variantColorMap[buttonVariant];
+    const currentBgColor = isActive ? colors.active : (isHovered ? colors.hover : colors.default);
     
-    // Determine which styles to apply based on state
-    const currentStyles = {
-      ...currentVariantStyles.initial,
-      ...(isActive && currentVariantStyles.active),
-      ...(isHovered && !isActive && currentVariantStyles.hover),
-    };
-    
-    // Clone children (icon) with proper size and color inheritance
+    // Clone icon with proper size and explicit color
+    const iconColor = buttonVariant === "filled" ? "#f5faf5" : "#407a3f";
     const clonedChildren = React.Children.map(children, (child) => {
       if (React.isValidElement(child)) {
         return React.cloneElement(child as React.ReactElement<any>, {
           style: {
-            ...sizeStyle.icon,
-            color: 'currentColor', // Inherit text color from button
+            ...iconSizeMap[buttonSize],
+            color: iconColor,
           },
         });
       }
       return child;
     });
 
+    // Combined inline styles for dimensions and dynamic colors
+    const inlineStyles: React.CSSProperties = {
+      ...buttonSizeMap[buttonSize],
+      backgroundColor: currentBgColor,
+    };
+
     return (
       <Comp
         className={cn(iconButtonVariants({ variant: buttonVariant, size: buttonSize, className }))}
-        style={{
-          ...sizeStyle.button,
-          ...currentStyles,
-          ...style,
-        }}
+        style={inlineStyles}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => {
           setIsHovered(false);
@@ -163,6 +137,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     );
   },
 );
+
 IconButton.displayName = "IconButton";
 
 export { IconButton, iconButtonVariants };
