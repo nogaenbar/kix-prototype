@@ -3,6 +3,7 @@ import { Slot } from "@radix-ui/react-slot@1.1.2";
 import { cva, type VariantProps } from "class-variance-authority@0.7.1";
 
 import { cn } from "./utils";
+import { iconButton as iconButtonTokens } from "@/styles/tokens";
 
 const iconButtonVariants = cva(
   [
@@ -30,62 +31,62 @@ const iconButtonVariants = cva(
   },
 );
 
-// Variant styles as inline styles (to ensure they're applied)
+// Variant styles using design tokens
 const variantStyles = {
   filled: {
     initial: {
-      backgroundColor: '#407a3f',
-      color: '#f5faf5',
-      borderColor: 'transparent',
+      backgroundColor: iconButtonTokens.filled.background.default,
+      color: iconButtonTokens.filled.foreground,
+      borderColor: iconButtonTokens.filled.border,
     },
     hover: {
-      backgroundColor: '#365528',
+      backgroundColor: iconButtonTokens.filled.background.hover,
     },
     active: {
-      backgroundColor: '#24391b',
+      backgroundColor: iconButtonTokens.filled.background.pressed,
     },
   },
   outlined: {
     initial: {
-      backgroundColor: 'transparent',
-      color: '#407a3f',
-      borderColor: 'rgba(64,122,63,0.2)',
+      backgroundColor: iconButtonTokens.outlined.background.default,
+      color: iconButtonTokens.outlined.foreground,
+      borderColor: iconButtonTokens.outlined.border,
     },
     hover: {
-      backgroundColor: '#deeedd',
+      backgroundColor: iconButtonTokens.outlined.background.hover,
     },
     active: {
-      backgroundColor: '#bcdcbc',
+      backgroundColor: iconButtonTokens.outlined.background.pressed,
     },
   },
   transparent: {
     initial: {
-      backgroundColor: 'transparent',
-      color: '#407a3f',
-      borderColor: 'transparent',
+      backgroundColor: iconButtonTokens.transparent.background.default,
+      color: iconButtonTokens.transparent.foreground,
+      borderColor: iconButtonTokens.transparent.border,
     },
     hover: {
-      backgroundColor: '#deeedd',
+      backgroundColor: iconButtonTokens.transparent.background.hover,
     },
     active: {
-      backgroundColor: '#bcdcbc',
+      backgroundColor: iconButtonTokens.transparent.background.pressed,
     },
   },
 } as const;
 
-// Map sizes to dimensions
+// Map sizes to dimensions using design tokens
 const sizeStyles = {
   lg: {
-    button: { width: '36px', height: '36px' },
-    icon: { width: '20px', height: '20px' },
+    button: { width: iconButtonTokens.size.lg.dimension, height: iconButtonTokens.size.lg.dimension },
+    icon: { width: iconButtonTokens.size.lg.iconSize, height: iconButtonTokens.size.lg.iconSize },
   },
   md: {
-    button: { width: '32px', height: '32px' },
-    icon: { width: '16px', height: '16px' },
+    button: { width: iconButtonTokens.size.md.dimension, height: iconButtonTokens.size.md.dimension },
+    icon: { width: iconButtonTokens.size.md.iconSize, height: iconButtonTokens.size.md.iconSize },
   },
   sm: {
-    button: { width: '24px', height: '24px' },
-    icon: { width: '12px', height: '12px' },
+    button: { width: iconButtonTokens.size.sm.dimension, height: iconButtonTokens.size.sm.dimension },
+    icon: { width: iconButtonTokens.size.sm.iconSize, height: iconButtonTokens.size.sm.iconSize },
   },
 } as const;
 
