@@ -1,0 +1,22 @@
+Browser needs hard refresh to see button changes.
+
+Try one of these:
+
+1. **Hard Refresh (Recommended):**
+   - Mac: Cmd + Shift + R
+   - Windows/Linux: Ctrl + Shift + R
+
+2. **Clear Cache & Reload:**
+   - Mac: Cmd + Option + R
+   - Windows: Ctrl + F5
+
+3. **Manual Refresh:**
+   - Close browser tab
+   - Reopen http://localhost:3000
+
+The button component has been updated with:
+- Correct icon sizes (20px/16px/12px)
+- Correct text color (#f5faf5)
+- Correct hover (#365528) and active (#24391b) states
+- cursor-pointer for proper hover indication
+

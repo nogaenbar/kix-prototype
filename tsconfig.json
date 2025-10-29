@@ -1,0 +1,60 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting - Strict mode for safety */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Path aliases */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@radix-ui/react-*": ["./node_modules/@radix-ui/react-*"],
+      "lucide-react@*": ["./node_modules/lucide-react"],
+      "lucide-react": ["./node_modules/lucide-react"],
+      "recharts@*": ["./node_modules/recharts"],
+      "recharts": ["./node_modules/recharts"],
+      "react-hook-form@*": ["./node_modules/react-hook-form"],
+      "react-hook-form": ["./node_modules/react-hook-form"],
+      "class-variance-authority@*": ["./node_modules/class-variance-authority"],
+      "class-variance-authority": ["./node_modules/class-variance-authority"],
+      "cmdk@*": ["./node_modules/cmdk"],
+      "cmdk": ["./node_modules/cmdk"],
+      "embla-carousel-react@*": ["./node_modules/embla-carousel-react"],
+      "embla-carousel-react": ["./node_modules/embla-carousel-react"],
+      "input-otp@*": ["./node_modules/input-otp"],
+      "input-otp": ["./node_modules/input-otp"],
+      "next-themes@*": ["./node_modules/next-themes"],
+      "next-themes": ["./node_modules/next-themes"],
+      "react-day-picker@*": ["./node_modules/react-day-picker"],
+      "react-day-picker": ["./node_modules/react-day-picker"],
+      "react-resizable-panels@*": ["./node_modules/react-resizable-panels"],
+      "react-resizable-panels": ["./node_modules/react-resizable-panels"],
+      "sonner@*": ["./node_modules/sonner"],
+      "sonner": ["./node_modules/sonner"],
+      "vaul@*": ["./node_modules/vaul"],
+      "vaul": ["./node_modules/vaul"],
+      "figma:asset/*": ["./src/assets/*"]
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+
