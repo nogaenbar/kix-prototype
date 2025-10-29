@@ -37,7 +37,7 @@ export function PriorityBadge({ priority, className = "" }: PriorityBadgeProps) 
   const Icon = config.icon;
 
   return (
-    <Badge className={`kix-chip kix-priority-badge ${config.className} px-1.5 py-0.5 text-xs font-medium inline-flex items-center gap-0.5 whitespace-nowrap max-w-full ${className}`}>
+    <Badge className={`inline-flex items-center gap-1 rounded text-xs font-medium whitespace-nowrap max-w-[60px] ${config.className} px-1.5 py-0.5 ${className}`}>
       <Icon size={9} />
       <span className="truncate">{priority}</span>
     </Badge>

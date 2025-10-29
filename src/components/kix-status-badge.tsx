@@ -20,7 +20,7 @@ export function StatusBadge({ status, locked = false, className = "" }: StatusBa
   const statusClass = statusConfig[status] || "bg-muted text-muted-foreground border-border";
 
   return (
-    <Badge className={`kix-chip kix-status-badge ${statusClass} px-1.5 py-0.5 text-xs font-medium inline-flex items-center gap-0.5 whitespace-nowrap max-w-full ${className}`}>
+    <Badge className={`inline-flex items-center gap-1 rounded text-xs font-medium whitespace-nowrap max-w-[100px] ${statusClass} px-1.5 py-0.5 ${className}`}>
       <span className="truncate">{status}</span>
       {locked && <Lock size={8} />}
     </Badge>

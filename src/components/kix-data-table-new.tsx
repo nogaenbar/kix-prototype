@@ -197,7 +197,7 @@ function TableToolbar() {
         {/* Action Buttons */}
         <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
           {/* Last 30 days */}
-          <button className="kix-button-secondary h-[32px] px-[12px] gap-[8px] rounded-[12px] flex items-center justify-center">
+          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap whitespace-pre">Last 30 days</p>
             <div className="relative shrink-0 size-[16px]">
               <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
@@ -209,7 +209,7 @@ function TableToolbar() {
           </button>
 
           {/* Priority */}
-          <button className="kix-button-secondary h-[32px] px-[12px] gap-[8px] rounded-[12px] flex items-center justify-center">
+          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap whitespace-pre">Priority</p>
             <div className="relative shrink-0 size-[16px]">
               <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
@@ -221,7 +221,7 @@ function TableToolbar() {
           </button>
 
           {/* Filter */}
-          <button className="kix-button-secondary h-[32px] px-[12px] gap-[8px] rounded-[12px] flex items-center justify-center">
+          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <div className="relative shrink-0 size-[16px]">
               <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
                 <g>
@@ -233,7 +233,7 @@ function TableToolbar() {
           </button>
 
           {/* Sort */}
-          <button className="kix-button-secondary h-[32px] px-[12px] gap-[8px] rounded-[12px] flex items-center justify-center">
+          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <div className="relative shrink-0 size-[16px]">
               <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
                 <g>
@@ -248,7 +248,7 @@ function TableToolbar() {
           </button>
 
           {/* Export CSV */}
-          <button className="kix-button-secondary h-[32px] px-[12px] gap-[8px] rounded-[12px] flex items-center justify-center">
+          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
             <div className="relative shrink-0 size-[16px]">
               <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
                 <g>

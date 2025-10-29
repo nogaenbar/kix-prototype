@@ -59,7 +59,7 @@ export function KPITile({ title, value, delta, variant = 'default', className = 
 
   // Standard KPI tile
   return (
-    <Card className={`kix-card kix-kpi-tile ${className}`}>
+    <Card className={`bg-white rounded-xl kix-kpi-tile ${className}`}>
       <CardContent className="box-border flex flex-col items-start p-6 gap-4">
         <div className="flex flex-col items-start gap-4 w-full">
           {/* Title */}

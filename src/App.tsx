@@ -293,7 +293,7 @@ export default function App() {
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="kix-button-primary">
+                <Button className="bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-pressed border-transparent rounded-lg font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
                   <Plus size={16} className="mr-2" />
                   New Ticket
                   <ChevronDown size={16} className="ml-2" />
