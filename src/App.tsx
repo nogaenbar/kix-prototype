@@ -200,11 +200,14 @@ const myTeamsData = [
   }
 ];
 
-// Helper to map page IDs to routes
+// Helper to map page IDs to routes (works with hash-based routing)
 const getActivePageFromPath = (pathname: string): string => {
+  // HashRouter gives pathname without the hash
+  // The hash is in window.location.hash, but React Router normalizes it to pathname
   if (pathname.startsWith("/tickets/")) return "ticket-detail";
   if (pathname === "/tickets") return "tickets";
-  if (pathname === "/dashboard" || pathname === "/") return "dashboard";
+  if (pathname === "/dashboard" || pathname === "/" || pathname === "") return "dashboard";
+  if (pathname === "/component-library") return "component-library";
   return "dashboard";
 };
 
