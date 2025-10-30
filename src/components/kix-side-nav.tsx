@@ -5,20 +5,20 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { IconButton } from "./ui/icon-button";
-import { Badge } from "./ui/badge";
+import { IconButton } from "@/components/ui/icon-button";
+import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "./ui/tooltip";
+} from "@/components/ui/tooltip";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "./ui/collapsible";
-import Logo from "../imports/Logo-2065-5052";
+} from "@/components/ui/collapsible";
+import Logo from "@/imports/Logo-2065-5052";
 import {
   Home,
   Ticket,
