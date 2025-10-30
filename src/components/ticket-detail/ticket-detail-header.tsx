@@ -93,6 +93,7 @@ export function TicketDetailHeader({
                     variant="transparent" 
                     size="sm" 
                     className="h-6 w-6 p-0 shrink-0"
+                    aria-label="Copy ticket ID"
                     onClick={onCopyId}
                   >
                     <Copy size={14} />
@@ -159,7 +160,7 @@ export function TicketDetailHeader({
             {/* Link Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outlined" size="sm" className="h-8 px-3 gap-1">
+                <Button variant="outlined" size="sm" className="h-8 px-3 gap-1" aria-label="Open link menu">
                   <Link2 size={14} />
                   <span className="text-xs">Link</span>
                   <ChevronDown size={12} />
@@ -187,7 +188,7 @@ export function TicketDetailHeader({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outlined" size="sm" className="h-8 w-8 p-0">
+                    <Button variant="outlined" size="sm" className="h-8 w-8 p-0" aria-label="Open more actions">
                       <MoreHorizontal size={16} />
                     </Button>
                   </DropdownMenuTrigger>

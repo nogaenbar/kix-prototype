@@ -68,6 +68,7 @@ export function TicketDetailConversation({
             variant="transparent"
             size="sm"
             className="h-6 w-6 p-0"
+            aria-label="Toggle conversation section"
             onClick={() => setConversationCollapsed(!conversationCollapsed)}
           >
             {conversationCollapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}
@@ -163,7 +164,7 @@ export function TicketDetailConversation({
                   {/* Message Actions */}
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="transparent" size="sm" className="h-6 w-6 p-0">
+                      <Button variant="transparent" size="sm" className="h-6 w-6 p-0" aria-label="Message actions">
                         <MoreHorizontal size={14} />
                       </Button>
                     </DropdownMenuTrigger>

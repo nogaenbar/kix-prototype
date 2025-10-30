@@ -156,6 +156,7 @@ export function KIXTicketDetail({ ticketId, onBack }: TicketDetailProps) {
                         variant="transparent"
                         size="sm"
                         className="h-6 w-6 p-0"
+                        aria-label="Toggle details section"
                         onClick={() => setDetailsCollapsed(!detailsCollapsed)}
                       >
                         {detailsCollapsed ? <ChevronDown size={16} /> : <ChevronUp size={16} />}

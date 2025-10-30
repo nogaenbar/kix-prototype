@@ -69,6 +69,7 @@ export function TicketDetailRightRail({
               variant="transparent"
               size="sm"
               className="h-6 w-6 p-0"
+              aria-label="Toggle contact section"
               onClick={() => setContactCollapsed(!contactCollapsed)}
             >
               {contactCollapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
@@ -100,7 +101,7 @@ export function TicketDetailRightRail({
               </Button>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outlined" size="sm" className="h-8 w-8 p-0">
+                  <Button variant="outlined" size="sm" className="h-8 w-8 p-0" aria-label="Copy contact info">
                     <Copy size={14} />
                   </Button>
                 </TooltipTrigger>
@@ -125,6 +126,7 @@ export function TicketDetailRightRail({
               variant="transparent"
               size="sm"
               className="h-6 w-6 p-0"
+              aria-label="Toggle linked assets section"
               onClick={() => setAssetsCollapsed(!assetsCollapsed)}
             >
               {assetsCollapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
@@ -171,6 +173,7 @@ export function TicketDetailRightRail({
               variant="transparent"
               size="sm"
               className="h-6 w-6 p-0"
+              aria-label="Toggle linked tickets section"
               onClick={() => setTicketsCollapsed(!ticketsCollapsed)}
             >
               {ticketsCollapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
@@ -220,6 +223,7 @@ export function TicketDetailRightRail({
               variant="transparent"
               size="sm"
               className="h-6 w-6 p-0"
+              aria-label="Toggle suggested knowledge section"
               onClick={() => setKnowledgeCollapsed(!knowledgeCollapsed)}
             >
               {knowledgeCollapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
@@ -266,6 +270,7 @@ export function TicketDetailRightRail({
               variant="transparent"
               size="sm"
               className="h-6 w-6 p-0"
+              aria-label="Toggle subtasks section"
               onClick={() => setSubtasksCollapsed(!subtasksCollapsed)}
             >
               {subtasksCollapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
