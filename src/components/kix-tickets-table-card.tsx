@@ -1,20 +1,33 @@
-import { useState } from "react";
 import { KIXDataTableNew } from "./kix-data-table-new";
 
-interface FilterChip {
-  id: string;
-  label: string;
-  value: string;
-}
-
 interface KIXTicketsTableCardProps {
+  activeViewId?: string;
   onFoldersClick?: () => void;
   onTicketClick?: (ticketId: string) => void;
   className?: string;
 }
 
-// Extended mock data for all tickets view
-const allTicketsData = [
+interface TicketData {
+  id: string;
+  subject: string;
+  code?: string;
+  assignee?: {
+    name: string;
+    avatar?: string;
+  };
+  team: string;
+  organization?: string;
+  priority: "P1" | "P2" | "P3" | "P4";
+  status: string;
+  date: string;
+  isNew?: boolean;
+  hasAttachment?: boolean;
+  isWatched?: boolean;
+  isLocked?: boolean;
+}
+
+// Extended mock data - full dataset
+const allTicketsData: TicketData[] = [
   {
     id: "202590",
     subject: "Email server not responding - urgent fix needed",
@@ -157,64 +170,74 @@ const allTicketsData = [
 ];
 
 export function KIXTicketsTableCard({
+  activeViewId = "all-tickets",
   onFoldersClick,
   onTicketClick,
   className = ""
 }: KIXTicketsTableCardProps) {
-  const [searchValue, setSearchValue] = useState("");
-  const [activeFilters, setActiveFilters] = useState<FilterChip[]>([
-    { id: "team", label: "Team", value: "IT-INFRA" },
-    { id: "priority", label: "Priority", value: "High" }
-  ]);
-
-  const handleSearchChange = (value: string) => {
-    setSearchValue(value);
-  };
-
-  const handleFilterRemove = (filterId: string) => {
-    setActiveFilters(prev => prev.filter(f => f.id !== filterId));
-  };
-
-  const handleClearAllFilters = () => {
-    setActiveFilters([]);
-  };
-
   const handleTicketClick = (ticketId: string) => {
     onTicketClick?.(ticketId);
   };
 
-  const handleDateRangeClick = () => {
-    console.log("Date range clicked");
+  // Filter data based on active view
+  const getFilteredData = (): TicketData[] => {
+    switch (activeViewId) {
+      case "all-tickets":
+        return allTicketsData;
+      case "my-tickets":
+        // My tickets: assigned to current user (mock - all tickets with assignee)
+        return allTicketsData.filter(ticket => ticket.assignee);
+      case "watched":
+        // Watched tickets: tickets with isWatched = true
+        return allTicketsData.filter(ticket => ticket.isWatched);
+      case "locked":
+        // Locked tickets: tickets with isLocked = true
+        return allTicketsData.filter(ticket => ticket.isLocked);
+      case "team":
+        // Team tickets: all tickets (same as all-tickets for now)
+        return allTicketsData;
+      case "unassigned":
+        // Unassigned tickets: tickets without assignee
+        return allTicketsData.filter(ticket => !ticket.assignee);
+      default:
+        return allTicketsData;
+    }
   };
 
-  const handleFiltersClick = () => {
-    console.log("Filters clicked");
+  // Get title based on active view
+  const getTitle = (): string => {
+    switch (activeViewId) {
+      case "all-tickets":
+        return "All Tickets";
+      case "my-tickets":
+        return "My Tickets";
+      case "watched":
+        return "Watched Tickets";
+      case "locked":
+        return "Locked Tickets";
+      case "team":
+        return "Team Tickets";
+      case "unassigned":
+        return "Unassigned Tickets";
+      default:
+        return "All Tickets";
+    }
   };
 
-  const handleColumnsClick = () => {
-    console.log("Columns clicked");
-  };
-
-  const handleDensityClick = () => {
-    console.log("Density clicked");
-  };
-
-  const handleExportClick = () => {
-    console.log("Export clicked");
-  };
+  const filteredData = getFilteredData();
+  const title = getTitle();
 
   return (
-    <div className={`flex-1 bg-card shadow-sm ${className}`}>
-      <div className="p-4 space-y-4 [&>*]:!rounded-none [&>*]:!border-none [&_*]:!rounded-none [&_*]:!border-none">
-        {/* Use new KIXDataTableNew component */}
-        <KIXDataTableNew
-          title="My Open Tickets"
-          data={allTicketsData}
-          columns={["id", "subject", "assignee", "team", "priority", "status", "date", "actions"]}
-          showBulkActions={true}
-          onRowClick={handleTicketClick}
-        />
-      </div>
+    <div className={`flex-1 h-full flex flex-col min-h-0 ${className}`}>
+      {/* Use same table component as dashboard, but disable collapse and filter data by view */}
+      <KIXDataTableNew
+        title={title}
+        data={filteredData}
+        columns={["id", "subject", "assignee", "team", "priority", "status", "date", "actions"]}
+        onRowClick={handleTicketClick}
+        allowCollapse={false}
+        className="flex-1 flex flex-col min-h-0"
+      />
     </div>
   );
 }

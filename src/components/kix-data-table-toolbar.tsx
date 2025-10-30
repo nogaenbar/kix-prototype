@@ -65,20 +65,20 @@ export function KIXDataTableToolbar({
       {/* Main toolbar */}
       <div className="flex items-center gap-3">
         {/* Search - takes remaining space */}
-        <div className="flex-1 relative">
-          <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+        <div className="flex-1">
           <Input
+            size="md"
             placeholder="Search tickets..."
             value={searchValue}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-9 h-9"
+            leftIcon={<Search />}
           />
         </div>
 
         {/* Right-side action buttons */}
         <div className="flex items-center gap-1">
           <Button
-            variant="outline"
+            variant="outlined"
             size="sm"
             onClick={onDateRangeClick}
             className="h-9 px-3"
@@ -88,7 +88,7 @@ export function KIXDataTableToolbar({
           </Button>
           
           <Button
-            variant="outline"
+            variant="outlined"
             size="sm"
             onClick={onFiltersClick}
             className="h-9 px-3"
@@ -100,7 +100,7 @@ export function KIXDataTableToolbar({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="outline"
+                variant="outlined"
                 size="sm"
                 className="h-9 px-3"
               >
@@ -118,7 +118,7 @@ export function KIXDataTableToolbar({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="outline"
+                variant="outlined"
                 size="sm"
                 className="h-9 px-3"
               >
@@ -137,7 +137,7 @@ export function KIXDataTableToolbar({
           </DropdownMenu>
 
           <Button
-            variant="outline"
+            variant="outlined"
             size="sm"
             onClick={onExportClick}
             className="h-9 px-3"
@@ -147,7 +147,7 @@ export function KIXDataTableToolbar({
           </Button>
 
           <Button
-            variant="outline"
+            variant="outlined"
             size="sm"
             onClick={onFoldersClick}
             className="h-9 px-3"
@@ -165,12 +165,12 @@ export function KIXDataTableToolbar({
           {activeFilters.map((filter) => (
             <Badge
               key={filter.id}
-              variant="outline"
+              variant="outlined"
               className="flex items-center gap-1 px-2 py-1 bg-primary/5 border-primary/20"
             >
               <span className="text-xs">{filter.label}: {filter.value}</span>
               <Button
-                variant="ghost"
+                variant="transparent"
                 size="sm"
                 className="h-auto w-auto p-0 hover:bg-transparent"
                 onClick={() => handleFilterRemove(filter.id)}
@@ -180,7 +180,7 @@ export function KIXDataTableToolbar({
             </Badge>
           ))}
           <Button
-            variant="ghost"
+            variant="transparent"
             size="sm"
             className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground"
             onClick={handleClearAllFilters}

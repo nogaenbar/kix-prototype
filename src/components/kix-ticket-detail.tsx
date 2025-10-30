@@ -232,7 +232,7 @@ export function KIXTicketDetail({ ticketId, onBack }: TicketDetailProps) {
               <div className="flex items-center gap-2 flex-wrap">
                 <StatusBadge status={ticketData.status} />
                 <PriorityBadge priority={ticketData.priority} />
-                <Badge className="kix-chip bg-[var(--critical-tint)] text-[var(--critical)] border-[var(--critical)]/20 px-1.5 py-0.5 text-xs inline-flex items-center gap-1">
+                <Badge className="inline-flex items-center gap-1 rounded text-xs font-medium whitespace-nowrap bg-[var(--critical-tint)] text-[var(--critical)] border-[var(--critical)]/20 px-1.5 py-0.5">
                   <Clock size={10} />
                   <span>{ticketData.sla}</span>
                 </Badge>
@@ -242,7 +242,7 @@ export function KIXTicketDetail({ ticketId, onBack }: TicketDetailProps) {
             {/* Right: Actions */}
             <div className="flex items-center gap-2 shrink-0">
               {/* Primary: Reply */}
-              <Button className="kix-button-primary h-9 px-4 gap-2">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-pressed border-transparent rounded-lg font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2 h-9 px-4 gap-2">
                 <Mail size={16} />
                 Reply
               </Button>
@@ -601,7 +601,7 @@ export function KIXTicketDetail({ ticketId, onBack }: TicketDetailProps) {
                                 <Badge 
                                   key={idx} 
                                   variant="outline" 
-                                  className="kix-chip bg-muted/50 text-xs px-2 py-1 gap-1 cursor-pointer hover:bg-muted"
+                                  className="inline-flex items-center gap-1 rounded text-xs font-medium whitespace-nowrap bg-muted/50 px-2 py-1 cursor-pointer hover:bg-muted"
                                 >
                                   <Paperclip size={12} />
                                   {attachment}
@@ -657,7 +657,7 @@ export function KIXTicketDetail({ ticketId, onBack }: TicketDetailProps) {
                             Cc/Bcc
                           </Button>
                         </div>
-                        <Button className="kix-button-primary h-8 px-4 gap-2">
+                        <Button className="bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-pressed border-transparent rounded-lg font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2 h-8 px-4 gap-2">
                           <Send size={14} />
                           <span className="text-xs">Send</span>
                         </Button>

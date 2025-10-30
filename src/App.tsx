@@ -216,8 +216,11 @@ export default function App() {
   };
 
   // Tickets page handlers
+  const [activeTicketView, setActiveTicketView] = useState<string>("all-tickets");
+
   const handleViewClick = (viewId: string) => {
     console.log("View clicked:", viewId);
+    setActiveTicketView(viewId);
   };
 
   const handleNewViewClick = () => {
@@ -293,10 +296,10 @@ export default function App() {
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="kix-button-primary">
-                  <Plus size={16} className="mr-2" />
+                <Button variant="filled" size="lg">
+                  <Plus />
                   New Ticket
-                  <ChevronDown size={16} className="ml-2" />
+                  <ChevronDown />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -428,6 +431,7 @@ export default function App() {
             <div className="flex-shrink-0">
               <KIXTicketsPageHeader
                 activeFilters={activeFilters}
+                activeViewId={activeTicketView}
                 onViewClick={handleViewClick}
                 onNewViewClick={handleNewViewClick}
                 onFilterRemove={handleFilterRemove}
@@ -438,6 +442,7 @@ export default function App() {
             {/* PageBody with Tickets Layout */}
             <div className="flex-1 overflow-hidden">
               <KIXTicketsLayout
+                activeViewId={activeTicketView}
                 onTicketClick={handleTicketClick}
                 onFilterApply={handleFilterApply}
               />

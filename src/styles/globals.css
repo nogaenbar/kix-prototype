@@ -63,6 +63,22 @@
   --shadow-popover:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* === ADDITIONAL CORE TOKENS === */
+  
+  /* Icon Colors (Used in button components) */
+  --icon-light: #f5faf5; /* Light green for filled button icons */
+  --icon-primary: #407a3f; /* Same as primary-700, for outlined/ghost icons */
+  --icon-disabled: #969696; /* Gray for disabled states */
+  
+  /* Border Colors (Used in button/input components) */
+  --border-primary-subtle: rgba(64, 122, 63, 0.2); /* 20% opacity primary for outlined buttons */
+  --border-disabled: #cdcdcd; /* Gray border for disabled states */
+  
+  /* Background States (Used in interactive components) */
+  --bg-hover-subtle: #deeedd; /* Light green hover for outlined/transparent buttons */
+  --bg-pressed-subtle: #bcdcbc; /* Slightly darker pressed state */
+  --bg-disabled-overlay: rgba(205, 205, 205, 0.48); /* 48% gray overlay for disabled */
 }
 
 /* KIX Soft Theme - Default and only theme */
@@ -304,70 +320,13 @@
   }
 }
 
-/* KIX Component Utilities */
-@layer utilities {
-  .kix-card {
-    @apply bg-white rounded-xl;
-  }
+/* KIX Component Utilities - Migrated to Tailwind utilities */
+/* All .kix-* @apply classes have been removed - use Tailwind utilities directly */
 
-  .kix-card-header {
-    @apply px-6 py-4 border-b border-border-muted;
-  }
-
-  /* Specific spacing for chart card headers */
-  .kix-chart-card .kix-card-header {
-    padding-bottom: 12px;
-    border-bottom: none;
-  }
-
-  .kix-card-content {
-    @apply p-6;
-  }
-
-  .kix-button-primary {
-    @apply bg-primary text-primary-foreground hover:bg-primary-hover focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg px-4 py-2 font-medium transition-colors;
-  }
-
-  .kix-button-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary-hover border border-outline focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg px-4 py-2 font-medium transition-colors;
-  }
-
-  .kix-button-ghost {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary-hover focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-lg px-4 py-2 font-medium transition-colors;
-  }
-
-  .kix-input {
-    @apply bg-card text-foreground border border-border focus:border-ring focus:ring-2 focus:ring-ring focus:ring-offset-0 rounded-lg px-3 py-2 transition-colors placeholder:text-muted-foreground;
-  }
-
-  .kix-chip {
-    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap;
-    min-height: 20px;
-    border-width: 1px;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Specific chip component styles */
-  .kix-team-chip {
-    @apply px-2 py-0.5;
-    max-width: 80px;
-  }
-
-  .kix-priority-badge {
-    @apply px-2 py-0.5 gap-1;
-    max-width: 60px;
-  }
-
-  .kix-status-badge {
-    @apply px-2 py-0.5 gap-1;
-    max-width: 100px;
-  }
-
-  .kix-badge {
-    @apply inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium;
-  }
+/* Specific spacing for chart card headers (kept as custom rule since it's component-specific) */
+.kix-chart-card .kix-card-header {
+  padding-bottom: 12px;
+  border-bottom: none;
 }
 
 /* Custom utility classes for KIX navigation and shell */
@@ -395,9 +354,6 @@
 }
 .kix-shell-pagebody {
   z-index: 1;
-}
-.kix-shell-sidebar-panel {
-  z-index: 15;
 }
 
 /* Shadow utilities */

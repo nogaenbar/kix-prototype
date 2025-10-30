@@ -11,6 +11,7 @@ interface FilterChip {
 
 interface KIXTicketsPageHeaderProps {
   activeFilters?: FilterChip[];
+  activeViewId?: string;
   onViewClick?: (viewId: string) => void;
   onNewViewClick?: () => void;
   onFilterRemove?: (filterId: string) => void;
@@ -20,6 +21,7 @@ interface KIXTicketsPageHeaderProps {
 
 export function KIXTicketsPageHeader({
   activeFilters = [],
+  activeViewId,
   onViewClick,
   onNewViewClick,
   onFilterRemove,
@@ -35,39 +37,40 @@ export function KIXTicketsPageHeader({
   };
 
   return (
-    <div className={`w-full bg-card border-b border-border kix-shell-pageheader ${className}`}>
-      <div className="flex flex-col gap-3 px-4 py-3">
-        {/* Row 1: Ticket Views Tabs */}
+    <div className={`w-full bg-[#f7f7f7] border-b border-slate-300 kix-shell-pageheader ${className}`}>
+      <div className="p-4">
+        {/* Ticket Views Tabs */}
         <KIXTicketViewsTabs 
+          activeViewId={activeViewId}
           onViewClick={onViewClick}
           onNewViewClick={onNewViewClick}
         />
 
-        {/* Row 2: Active Filter Chips */}
+        {/* Active Filter Chips - Below tabs when filters are active */}
         {activeFilters.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm text-muted-foreground">Active filters:</span>
+          <div className="flex items-center gap-2 flex-wrap mt-3 pt-3 border-t border-slate-200">
+            <span className="text-sm text-slate-500">Active filters:</span>
             {activeFilters.map((filter) => (
               <Badge
                 key={filter.id}
                 variant="outline"
-                className="flex items-center gap-1 px-2 py-1 bg-primary/5 border-primary/20"
+                className="flex items-center gap-1 px-2 py-1 bg-white/50 border-slate-300"
               >
-                <span className="text-xs">{filter.label}: {filter.value}</span>
+                <span className="text-xs text-slate-700">{filter.label}: {filter.value}</span>
                 <Button
-                  variant="ghost"
+                  variant="transparent"
                   size="sm"
-                  className="h-auto w-auto p-0 hover:bg-transparent"
+                  className="h-auto w-auto p-0 hover:bg-transparent ml-1"
                   onClick={() => handleFilterRemove(filter.id)}
                 >
-                  <X size={12} />
+                  <X size={12} className="text-slate-500" />
                 </Button>
               </Badge>
             ))}
             <Button
-              variant="ghost"
+              variant="transparent"
               size="sm"
-              className="h-6 px-2 text-xs text-muted-foreground hover:text-foreground"
+              className="h-6 px-2 text-xs text-slate-500 hover:text-slate-700"
               onClick={handleClearAllFilters}
             >
               Clear all

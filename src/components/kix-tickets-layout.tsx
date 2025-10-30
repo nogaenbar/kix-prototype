@@ -4,12 +4,14 @@ import { KIXTicketsTableCard } from "./kix-tickets-table-card";
 import { KIXFoldersDrawer } from "./kix-folders-drawer";
 
 interface KIXTicketsLayoutProps {
+  activeViewId?: string;
   onTicketClick?: (ticketId: string) => void;
   onFilterApply?: (filterId: string, filterData: any) => void;
   className?: string;
 }
 
 export function KIXTicketsLayout({
+  activeViewId,
   onTicketClick,
   onFilterApply,
   className = ""
@@ -58,6 +60,7 @@ export function KIXTicketsLayout({
       {/* Main Table Area */}
       <div className="flex-1 h-full">
         <KIXTicketsTableCard
+          activeViewId={activeViewId}
           onFoldersClick={handleFoldersClick}
           onTicketClick={handleTicketClick}
         />

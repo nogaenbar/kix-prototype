@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { IconButton } from "./ui/icon-button";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Tabs } from "./ui/tabs";
 import { 
   Plus, Download, Search, Settings, Trash2, Edit, 
   Copy, Share2, Mail, Bell, Filter, ArrowRight,
   ChevronDown, X, Check, AlertCircle, Home, Package,
-  Type, MousePointer, LayoutGrid
+  Type, MousePointer, LayoutGrid, User, Lock, Eye, EyeOff
 } from "lucide-react";
 
 /**
@@ -78,6 +80,20 @@ const componentRegistry: ComponentCategory[] = [
         name: "Data Table",
         description: "Tables for displaying structured data",
         status: "beta"
+      }
+    ]
+  },
+  {
+    id: "navigation",
+    name: "Navigation",
+    icon: LayoutGrid,
+    components: [
+      {
+        id: "tabs",
+        name: "Tabs",
+        description: "Tab navigation component for views",
+        status: "new",
+        figmaUrl: "https://www.figma.com/design/04rBMxy8CfG5SX1pbOGL7D/Vision-UI-v1?node-id=16-15120"
       }
     ]
   }
@@ -271,7 +287,19 @@ export function ComponentLibrary() {
           {selectedComponent === "text-button" && activeTab === "code" && (
             <TextButtonCode />
           )}
-          {!["icon-button", "text-button"].includes(selectedComponent) && (
+          {selectedComponent === "text-input" && activeTab === "showcase" && (
+            <TextInputShowcase />
+          )}
+          {selectedComponent === "tabs" && activeTab === "showcase" && (
+            <TabsShowcase />
+          )}
+          {selectedComponent === "tabs" && activeTab === "props" && (
+            <TabsProps />
+          )}
+          {selectedComponent === "tabs" && activeTab === "code" && (
+            <TabsCode />
+          )}
+          {!["icon-button", "text-button", "text-input", "tabs"].includes(selectedComponent) && (
             <ComingSoon componentName={selectedInfo?.component.name || ""} />
           )}
         </div>
@@ -634,6 +662,30 @@ import { Plus, Trash2, Edit } from "lucide-react";`}
 function TextButtonShowcase() {
   return (
     <div className="p-8 space-y-8">
+      {/* Interactive Demo Section */}
+      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border-2 border-green-200 p-6 mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <h3 className="text-lg font-semibold text-green-900">Interactive Demo</h3>
+        </div>
+        <p className="text-sm text-green-700 mb-4">
+          Hover and click the buttons below to see state transitions in action
+        </p>
+        <div className="flex flex-wrap gap-4">
+          <Button variant="filled" size="lg">
+            <Plus />
+            Filled Large
+          </Button>
+          <Button variant="outlined" size="md">
+            <Download />
+            Outlined Medium
+          </Button>
+          <Button variant="transparent" size="sm">
+            Transparent Small
+          </Button>
+        </div>
+      </div>
+
       <ComponentSection
         title="Filled"
         description="High emphasis button for primary actions"
@@ -643,21 +695,21 @@ function TextButtonShowcase() {
           { label: "Active", value: "#24391b", text: "#f5faf5" }
         ]}
       >
-        <VariantGrid title="Large (36px height)">
+        <VariantGrid title="Large (36px height, 16px padding, 20px icons)">
           <Button variant="filled" size="lg">Label Only</Button>
           <Button variant="filled" size="lg"><Plus />Leading Icon</Button>
           <Button variant="filled" size="lg">Trailing Icon<ArrowRight /></Button>
           <Button variant="filled" size="lg" disabled>Disabled</Button>
         </VariantGrid>
 
-        <VariantGrid title="Medium (32px height)">
+        <VariantGrid title="Medium (32px height, 12px padding, 16px icons)">
           <Button variant="filled" size="md">Label Only</Button>
           <Button variant="filled" size="md"><Plus />Leading Icon</Button>
           <Button variant="filled" size="md">Trailing Icon<ArrowRight /></Button>
           <Button variant="filled" size="md" disabled>Disabled</Button>
         </VariantGrid>
 
-        <VariantGrid title="Small (24px height)">
+        <VariantGrid title="Small (24px height, 8px padding, 12px icons)">
           <Button variant="filled" size="sm">Label Only</Button>
           <Button variant="filled" size="sm"><Plus />Leading Icon</Button>
           <Button variant="filled" size="sm">Trailing Icon<ArrowRight /></Button>
@@ -670,30 +722,60 @@ function TextButtonShowcase() {
         description="Medium emphasis button for secondary actions"
         colors={[
           { label: "Initial", value: "#ffffff", border: "rgba(64,122,63,0.2)", text: "#407a3f" },
-          { label: "Hover", value: "#ebf5e6", text: "#407a3f" },
-          { label: "Active", value: "#ddefd6", text: "#407a3f" }
+          { label: "Hover", value: "#deeedd", text: "#407a3f" },
+          { label: "Active", value: "#bcdcbc", text: "#407a3f" }
         ]}
       >
-        <VariantGrid title="All Sizes">
-          <Button variant="outlined" size="lg">Large</Button>
-          <Button variant="outlined" size="md"><Download />Medium</Button>
-          <Button variant="outlined" size="sm">Small</Button>
+        <VariantGrid title="Large (36px height)">
+          <Button variant="outlined" size="lg">Label Only</Button>
+          <Button variant="outlined" size="lg"><Download />Leading Icon</Button>
+          <Button variant="outlined" size="lg">Trailing Icon<ArrowRight /></Button>
+          <Button variant="outlined" size="lg" disabled>Disabled</Button>
+        </VariantGrid>
+
+        <VariantGrid title="Medium (32px height)">
+          <Button variant="outlined" size="md">Label Only</Button>
+          <Button variant="outlined" size="md"><Download />Leading Icon</Button>
+          <Button variant="outlined" size="md">Trailing Icon<ArrowRight /></Button>
+          <Button variant="outlined" size="md" disabled>Disabled</Button>
+        </VariantGrid>
+
+        <VariantGrid title="Small (24px height)">
+          <Button variant="outlined" size="sm">Label Only</Button>
+          <Button variant="outlined" size="sm"><Download />Leading Icon</Button>
+          <Button variant="outlined" size="sm">Trailing Icon<ArrowRight /></Button>
+          <Button variant="outlined" size="sm" disabled>Disabled</Button>
         </VariantGrid>
       </ComponentSection>
 
       <ComponentSection
-        title="Ghost"
+        title="Transparent"
         description="Low emphasis button for tertiary actions"
         colors={[
           { label: "Initial", value: "transparent", text: "#407a3f" },
-          { label: "Hover", value: "#ebf5e6", text: "#407a3f" },
-          { label: "Active", value: "#ddefd6", text: "#407a3f" }
+          { label: "Hover", value: "#deeedd", text: "#407a3f" },
+          { label: "Active", value: "#bcdcbc", text: "#407a3f" }
         ]}
       >
-        <VariantGrid title="All Sizes">
-          <Button variant="ghost" size="lg">Large</Button>
-          <Button variant="ghost" size="md"><Filter />Medium</Button>
-          <Button variant="ghost" size="sm">Small</Button>
+        <VariantGrid title="Large (36px height)">
+          <Button variant="transparent" size="lg">Label Only</Button>
+          <Button variant="transparent" size="lg"><Filter />Leading Icon</Button>
+          <Button variant="transparent" size="lg">Trailing Icon<ArrowRight /></Button>
+          <Button variant="transparent" size="lg" disabled>Disabled</Button>
+        </VariantGrid>
+
+        <VariantGrid title="Medium (32px height)">
+          <Button variant="transparent" size="md">Label Only</Button>
+          <Button variant="transparent" size="md"><Filter />Leading Icon</Button>
+          <Button variant="transparent" size="md">Trailing Icon<ArrowRight /></Button>
+          <Button variant="transparent" size="md" disabled>Disabled</Button>
+        </VariantGrid>
+
+        <VariantGrid title="Small (24px height)">
+          <Button variant="transparent" size="sm">Label Only</Button>
+          <Button variant="transparent" size="sm"><Filter />Leading Icon</Button>
+          <Button variant="transparent" size="sm">Trailing Icon<ArrowRight /></Button>
+          <Button variant="transparent" size="sm" disabled>Disabled</Button>
         </VariantGrid>
       </ComponentSection>
     </div>
@@ -716,7 +798,7 @@ function TextButtonProps() {
           <tbody className="divide-y divide-gray-200">
             <tr>
               <td className="px-6 py-4 text-sm font-mono text-[#407a3f]">variant</td>
-              <td className="px-6 py-4 text-sm font-mono text-gray-600">"filled" | "outlined" | "ghost"</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">"filled" | "outlined" | "transparent"</td>
               <td className="px-6 py-4 text-sm font-mono text-gray-600">"filled"</td>
               <td className="px-6 py-4 text-sm text-gray-700">Visual style variant</td>
             </tr>
@@ -841,6 +923,528 @@ function CodeBlock({ title, code }: { title: string; code: string }) {
       <pre className="p-4 text-sm font-mono text-gray-800 overflow-x-auto">
         <code>{code}</code>
       </pre>
+    </div>
+  );
+}
+
+function TextInputShowcase() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  return (
+    <div className="p-8 space-y-8">
+      {/* Interactive Demo Section */}
+      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border-2 border-green-200 p-6 mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <h3 className="text-lg font-semibold text-green-900">Interactive Demo</h3>
+        </div>
+        <p className="text-sm text-green-700 mb-4">
+          Try typing in the inputs below to see states in action
+        </p>
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            size="lg"
+            placeholder="Type something..."
+            label="Large Input"
+          />
+          <Input
+            size="md"
+            placeholder="Type something..."
+            label="Medium Input"
+            leftIcon={<Search />}
+          />
+        </div>
+      </div>
+
+      {/* Sizes */}
+      <ComponentSection
+        title="Sizes"
+        description="Two size options for different use cases"
+        colors={[
+          { label: "Border", value: "#D0D5DD" },
+          { label: "Text", value: "#101828" },
+          { label: "Placeholder", value: "#9AA1B1" }
+        ]}
+      >
+        <VariantGrid title="Large (40px height, 16px text, 16px icons)">
+          <div className="w-full space-y-2">
+            <Input size="lg" placeholder="Enter text..." />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Medium (36px height, 14px text, 16px icons)">
+          <div className="w-full space-y-2">
+            <Input size="md" placeholder="Enter text..." />
+          </div>
+        </VariantGrid>
+      </ComponentSection>
+
+      {/* States */}
+      <ComponentSection
+        title="States"
+        description="Different interactive states"
+        colors={[
+          { label: "Default", value: "#D0D5DD" },
+          { label: "Focus", value: "#407a3f" },
+          { label: "Error", value: "#F04438" },
+          { label: "Success", value: "#12B76A" }
+        ]}
+      >
+        <VariantGrid title="Default">
+          <div className="w-full">
+            <Input
+              size="md"
+              placeholder="Default state"
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Hover (hover over input to see)">
+          <div className="w-full">
+            <Input
+              size="md"
+              placeholder="Hover to see border change"
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Disabled">
+          <div className="w-full">
+            <Input
+              size="md"
+              placeholder="Disabled input"
+              disabled
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Error">
+          <div className="w-full">
+            <Input
+              size="md"
+              placeholder="Enter email"
+              error
+              helperText="This field is required"
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Success">
+          <div className="w-full">
+            <Input
+              size="md"
+              placeholder="Enter email"
+              success
+              helperText="Email is valid"
+            />
+          </div>
+        </VariantGrid>
+      </ComponentSection>
+
+      {/* With Icons */}
+      <ComponentSection
+        title="With Icons"
+        description="Icons can be placed on left or right side (16×16px, md size)"
+        colors={[
+          { label: "Icon", value: "#6A7282" },
+          { label: "Border", value: "#D0D5DD" }
+        ]}
+      >
+        <VariantGrid title="Left Icon">
+          <div className="w-full space-y-4">
+            <Input
+              size="lg"
+              placeholder="Search..."
+              leftIcon={<Search />}
+            />
+            <Input
+              size="md"
+              placeholder="Search..."
+              leftIcon={<Search />}
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Right Icon">
+          <div className="w-full space-y-4">
+            <Input
+              size="lg"
+              placeholder="Filter results"
+              rightIcon={<Filter />}
+            />
+            <Input
+              size="md"
+              placeholder="Filter results"
+              rightIcon={<Filter />}
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Both Icons">
+          <div className="w-full space-y-4">
+            <Input
+              size="lg"
+              placeholder="Search and filter"
+              leftIcon={<Search />}
+              rightIcon={<Filter />}
+            />
+            <Input
+              size="md"
+              placeholder="Search and filter"
+              leftIcon={<Search />}
+              rightIcon={<Filter />}
+            />
+          </div>
+        </VariantGrid>
+      </ComponentSection>
+
+      {/* Use Cases */}
+      <ComponentSection
+        title="Common Use Cases"
+        description="Real-world examples with labels and helper text"
+        colors={[
+          { label: "Label", value: "#344054" },
+          { label: "Helper", value: "#6A7282" }
+        ]}
+      >
+        <VariantGrid title="Email Input">
+          <div className="w-full">
+            <Input
+              size="md"
+              type="email"
+              label="Email"
+              placeholder="you@example.com"
+              leftIcon={<Mail />}
+              helperText="We'll never share your email"
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Password Input">
+          <div className="w-full">
+            <Input
+              size="md"
+              type={passwordVisible ? "text" : "password"}
+              label="Password"
+              placeholder="Enter your password"
+              leftIcon={<Lock />}
+              rightIcon={passwordVisible ? <EyeOff /> : <Eye />}
+              helperText="Must be at least 8 characters"
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Search Input">
+          <div className="w-full">
+            <Input
+              size="lg"
+              placeholder="Search tickets..."
+              leftIcon={<Search />}
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Username Input">
+          <div className="w-full">
+            <Input
+              size="md"
+              label="Username"
+              placeholder="johndoe"
+              leftIcon={<User />}
+              success
+              helperText="Username is available"
+            />
+          </div>
+        </VariantGrid>
+
+        <VariantGrid title="Error State Example">
+          <div className="w-full">
+            <Input
+              size="md"
+              type="email"
+              label="Email Address"
+              placeholder="you@example.com"
+              leftIcon={<Mail />}
+              error
+              helperText="Please enter a valid email address"
+            />
+          </div>
+        </VariantGrid>
+      </ComponentSection>
+
+      {/* Technical Specs */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Technical Specifications</h3>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700 mb-3">Large Size</h4>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li>• Height: 40px</li>
+              <li>• Text: 16px / 20px line-height</li>
+              <li>• Padding: 16px horizontal, 10px vertical</li>
+              <li>• Icon size: 16×16px (md)</li>
+              <li>• Border radius: 12px</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700 mb-3">Medium Size</h4>
+            <ul className="space-y-2 text-sm text-gray-600">
+              <li>• Height: 36px</li>
+              <li>• Text: 14px / 20px line-height</li>
+              <li>• Padding: 12px horizontal, 8px vertical</li>
+              <li>• Icon size: 16×16px (md)</li>
+              <li>• Border radius: 12px</li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-6 pt-6 border-t border-gray-200">
+          <h4 className="text-sm font-semibold text-gray-700 mb-3">Colors & States</h4>
+          <div className="grid grid-cols-3 gap-4 text-sm text-gray-600">
+            <div>
+              <strong>Border:</strong>
+              <ul className="mt-1 space-y-1">
+                <li>• Default: #D0D5DD</li>
+                <li>• Hover: #9AA1B1</li>
+                <li>• Focus: #407a3f</li>
+                <li>• Error: #F04438</li>
+                <li>• Success: #12B76A</li>
+              </ul>
+            </div>
+            <div>
+              <strong>Text:</strong>
+              <ul className="mt-1 space-y-1">
+                <li>• Input: #101828</li>
+                <li>• Placeholder: #9AA1B1</li>
+                <li>• Label: #344054</li>
+                <li>• Helper: #6A7282</li>
+                <li>• Disabled: #9AA1B1</li>
+              </ul>
+            </div>
+            <div>
+              <strong>Icon:</strong>
+              <ul className="mt-1 space-y-1">
+                <li>• Default: #6A7282</li>
+                <li>• Error: #F04438</li>
+                <li>• Success: #12B76A</li>
+                <li>• Disabled: #9AA1B1</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TabsShowcase() {
+  const [activeTab, setActiveTab] = useState<string>("all-tickets");
+
+  const ticketTabs = [
+    { id: "all-tickets", label: "All Tickets", count: 1287 },
+    { id: "open", label: "Open", count: 856 },
+    { id: "my-tickets", label: "My Tickets", count: 23 },
+    { id: "watched", label: "Watched", count: 12 },
+    { id: "locked", label: "Locked", count: 6 },
+    { id: "team", label: "Team", count: 134 },
+    { id: "unassigned", label: "Unassigned", count: 42 },
+  ];
+
+  const tabsWithoutCounts = [
+    { id: "tab1", label: "Overview" },
+    { id: "tab2", label: "Details" },
+    { id: "tab3", label: "Settings" },
+  ];
+
+  return (
+    <div className="p-8 space-y-8">
+      {/* Interactive Demo Section */}
+      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border-2 border-green-200 p-6 mb-8">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <h3 className="text-lg font-semibold text-gray-900">Interactive Demo</h3>
+        </div>
+        <p className="text-sm text-gray-600 mb-6">
+          Click the tabs below to see the active state transition. The active tab has a green background (#407a3f) with white text, while inactive tabs are transparent with slate-500 text.
+        </p>
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
+          <Tabs
+            items={ticketTabs}
+            activeTabId={activeTab}
+            onTabClick={setActiveTab}
+          />
+          <div className="mt-6 pt-4 border-t border-gray-200">
+            <p className="text-sm text-gray-600">
+              Active tab: <span className="font-semibold text-[#407a3f]">{ticketTabs.find(t => t.id === activeTab)?.label}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* All States Section */}
+      <ComponentSection
+        title="Tab States"
+        description="Active and inactive tab states with badges"
+        colors={[
+          { label: "Active Tab", value: "#407a3f", text: "#ffffff" },
+          { label: "Active Badge", value: "rgba(255,255,255,0.2)", text: "#ffffff" },
+          { label: "Inactive Tab", value: "transparent", text: "#64748b" },
+          { label: "Inactive Badge", value: "#eaf5e6", text: "#407a3f" }
+        ]}
+      >
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700 mb-3">Complete Tab Bar (As in Figma)</h4>
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <Tabs
+                items={ticketTabs}
+                activeTabId="all-tickets"
+              />
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-gray-700 mb-3">Individual Tab States</h4>
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Tabs items={[{ id: "active", label: "Active Tab", count: 856 }]} activeTabId="active" />
+                <Tabs items={[{ id: "inactive", label: "Inactive Tab", count: 23 }]} activeTabId="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </ComponentSection>
+
+      {/* Tabs Without Badges */}
+      <ComponentSection
+        title="Tabs Without Count Badges"
+        description="Simple tabs for views that don't require count indicators"
+        colors={[]}
+      >
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
+          <Tabs
+            items={tabsWithoutCounts}
+            activeTabId="tab1"
+          />
+        </div>
+      </ComponentSection>
+
+      {/* Technical Specifications */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Technical Specifications</h3>
+        <div className="grid grid-cols-2 gap-6 text-sm">
+          <div>
+            <h4 className="font-semibold text-gray-700 mb-2">Container</h4>
+            <ul className="space-y-1 text-gray-600">
+              <li>• Gap between tabs: 4px (gap-1)</li>
+              <li>• Flexbox layout (flex items-center)</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-700 mb-2">Tab</h4>
+            <ul className="space-y-1 text-gray-600">
+              <li>• Height: 34px (py-[6px] + text 20px)</li>
+              <li>• Padding: 12px horizontal (px-3)</li>
+              <li>• Border radius: 12px</li>
+              <li>• Font: Inter Medium, 14px</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-700 mb-2">Active State</h4>
+            <ul className="space-y-1 text-gray-600">
+              <li>• Background: #407a3f</li>
+              <li>• Text: white</li>
+              <li>• Badge: rgba(255,255,255,0.2) bg, white text</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-700 mb-2">Inactive State</h4>
+            <ul className="space-y-1 text-gray-600">
+              <li>• Background: transparent</li>
+              <li>• Text: slate-500</li>
+              <li>• Badge: #eaf5e6 bg, #407a3f text</li>
+              <li>• Hover: slate-700 text</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-700 mb-2">Badge</h4>
+            <ul className="space-y-1 text-gray-600">
+              <li>• Height: 22px</li>
+              <li>• Padding: 9px horizontal, 3px vertical</li>
+              <li>• Border radius: 12px</li>
+              <li>• Font: Inter Medium, 12px</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TabsProps() {
+  return (
+    <div className="p-8">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Prop</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Type</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Default</th>
+              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Description</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            <tr>
+              <td className="px-6 py-4 text-sm font-mono text-[#407a3f]">items</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">TabItem[]</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">-</td>
+              <td className="px-6 py-4 text-sm text-gray-700">Array of tab items (id, label, optional count)</td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4 text-sm font-mono text-[#407a3f]">activeTabId</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">string</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">undefined</td>
+              <td className="px-6 py-4 text-sm text-gray-700">ID of the currently active tab</td>
+            </tr>
+            <tr>
+              <td className="px-6 py-4 text-sm font-mono text-[#407a3f]">onTabClick</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">(tabId: string) =&gt; void</td>
+              <td className="px-6 py-4 text-sm font-mono text-gray-600">undefined</td>
+              <td className="px-6 py-4 text-sm text-gray-700">Callback fired when a tab is clicked</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function TabsCode() {
+  return (
+    <div className="p-8">
+      <div className="bg-gray-900 rounded-lg p-6 overflow-x-auto">
+        <pre className="text-sm text-gray-300">
+          <code>{`import { Tabs } from "./ui/tabs";
+
+const tabs = [
+  { id: "all-tickets", label: "All Tickets", count: 1287 },
+  { id: "my-tickets", label: "My Tickets", count: 23 },
+  { id: "watched", label: "Watched", count: 12 },
+];
+
+function MyComponent() {
+  const [activeTab, setActiveTab] = useState("all-tickets");
+
+  return (
+    <Tabs
+      items={tabs}
+      activeTabId={activeTab}
+      onTabClick={setActiveTab}
+    />
+  );
+}`}</code>
+        </pre>
+      </div>
     </div>
   );
 }
