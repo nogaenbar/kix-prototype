@@ -236,7 +236,8 @@ export function KIXTicketsTableCard({
         columns={["id", "subject", "assignee", "team", "priority", "status", "date", "actions"]}
         onRowClick={handleTicketClick}
         allowCollapse={false}
-        className="flex-1 flex flex-col min-h-0"
+        className="h-full flex flex-col min-h-0"
+        isTicketsPage={true}
       />
     </div>
   );

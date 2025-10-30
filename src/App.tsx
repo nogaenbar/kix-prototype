@@ -423,11 +423,14 @@ export default function App() {
       onWorkTabClick={handleTicketClick}
       onWorkTabClose={handleWorkTabClose}
     >
-      {/* Custom layout for tickets - no grid system */}
-      <div className="col-span-12 h-full -mx-6 -my-6">
+      {/* Custom layout for tickets - fills viewport height, aligns with side nav bottom (12px padding) */}
+      <div 
+        className="col-span-12 -mx-6 -my-6 flex flex-col overflow-hidden" 
+        style={{ height: openWorkTabs.length > 0 ? 'calc(100vh - 84px - 48px - 24px)' : 'calc(100vh - 84px - 24px)' }}
+      >
         <Suspense fallback={<LoadingSpinner />}>
-          <div className="h-full flex flex-col">
-            {/* PageHeader with Ticket Views */}
+          <div className="h-full flex flex-col min-h-0">
+            {/* PageHeader with Ticket Views - Fixed */}
             <div className="flex-shrink-0">
               <KIXTicketsPageHeader
                 activeFilters={activeFilters}
@@ -439,8 +442,8 @@ export default function App() {
               />
             </div>
             
-            {/* PageBody with Tickets Layout */}
-            <div className="flex-1 overflow-hidden">
+            {/* PageBody with Tickets Layout - Fills remaining height, no overflow */}
+            <div className="flex-1 min-h-0 overflow-hidden">
               <KIXTicketsLayout
                 activeViewId={activeTicketView}
                 onTicketClick={handleTicketClick}

@@ -49,6 +49,7 @@ interface DataTableProps {
   onRowClick?: (ticketId: string) => void;
   className?: string;
   allowCollapse?: boolean;
+  isTicketsPage?: boolean;
 }
 
 // Search Icon Component (exact from Figma)
@@ -134,16 +135,17 @@ function ActionIcon() {
 }
 
 // Card Header Component (exact from Figma)
-function CardHeader({ title, ticketCount, isCollapsed, onToggle, allowCollapse = true }: {
+function CardHeader({ title, ticketCount, isCollapsed, onToggle, allowCollapse = true, isTicketsPage = false }: {
   title: string;
   ticketCount: number;
   isCollapsed: boolean;
   onToggle: () => void;
   allowCollapse?: boolean;
+  isTicketsPage?: boolean;
 }) {
   return (
     <div 
-      className="bg-white relative shrink-0 w-full"
+      className={`${isTicketsPage ? '' : 'bg-white'} relative shrink-0 w-full`}
       style={{
         padding: '24px',
         borderRadius: isCollapsed ? '12px' : '12px 12px 0 0',
@@ -186,19 +188,18 @@ function CardHeader({ title, ticketCount, isCollapsed, onToggle, allowCollapse =
 // Table Toolbar Component (using new Input component)
 function TableToolbar() {
   return (
-    <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
-      <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
-        {/* Search */}
-        <div className="w-[280px]">
-          <Input
-            size="md"
-            placeholder="Search tickets..."
-            leftIcon={<Search />}
-          />
-        </div>
+    <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
+      {/* Search */}
+      <div className="w-[280px]">
+        <Input
+          size="md"
+          placeholder="Search tickets..."
+          leftIcon={<Search />}
+        />
+      </div>
 
-        {/* Action Buttons */}
-        <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
+      {/* Action Buttons - Right aligned */}
+      <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
           {/* Last 30 days */}
           <Button variant="outlined" size="md">
             Last 30 days
@@ -228,7 +229,6 @@ function TableToolbar() {
             <Download />
             Export CSV
           </Button>
-        </div>
       </div>
     </div>
   );
@@ -237,9 +237,8 @@ function TableToolbar() {
 // Table Header Component (exact from Figma)
 function TableHeader() {
   return (
-    <div className="bg-slate-50 relative shrink-0 w-full">
-      <div className="flex flex-row items-center overflow-clip size-full">
-        <div className="box-border content-stretch flex items-center px-[12px] py-[8px] relative w-full">
+    <div className="bg-slate-50 border-b border-gray-200 relative shrink-0 w-full">
+      <div className="box-border content-stretch flex items-center px-[12px] py-[8px] relative w-full">
           {/* TicketID */}
           <div className="basis-0 bg-[rgba(27,27,27,0)] grow h-[40px] min-h-px min-w-px relative shrink-0">
             <div className="flex flex-row items-center size-full">
@@ -375,8 +374,6 @@ function TableHeader() {
             </div>
           </div>
         </div>
-      </div>
-      <div aria-hidden="true" className="absolute border-[0px_0px_1px] border-gray-200 border-solid inset-0 pointer-events-none" />
     </div>
   );
 }
@@ -631,9 +628,9 @@ function TicketRow({ ticket, onRowClick }: {
 }
 
 // Table Body Component (exact from Figma)
-function TableBody({ data, onRowClick }: { data: TicketData[]; onRowClick?: (ticketId: string) => void }) {
+function TableBody({ data, onRowClick, isTicketsPage = false }: { data: TicketData[]; onRowClick?: (ticketId: string) => void; isTicketsPage?: boolean }) {
   return (
-    <div className="content-stretch flex flex-col flex-1 min-h-0 overflow-y-auto items-start relative w-full">
+    <div className="content-stretch flex flex-col flex-1 min-h-0 overflow-y-auto items-start relative w-full bg-white">
       {data.map((ticket) => (
         <TicketRow key={ticket.id} ticket={ticket} onRowClick={onRowClick} />
       ))}
@@ -644,41 +641,36 @@ function TableBody({ data, onRowClick }: { data: TicketData[]; onRowClick?: (tic
 // Table Footer Component (exact from Figma)
 function TableFooter({ totalResults }: { totalResults: number }) {
   return (
-    <div className="bg-white h-[60px] relative shrink-0 w-full">
-      <div aria-hidden="true" className="absolute border-[1px_0px_0px] border-gray-200 border-solid inset-0 pointer-events-none" />
-      <div className="flex flex-row items-center size-full">
-        <div className="box-border content-stretch flex h-[60px] items-center justify-between pb-0 pt-px px-[16px] relative w-full">
-          {/* Results count */}
-          <div className="relative shrink-0">
-            <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border content-stretch flex gap-[10px] items-center justify-center relative">
-              <p className="font-['Inter:Regular',_sans-serif] font-normal leading-[20px] not-italic relative shrink-0 text-[#6a7282] text-[14px] w-[189px]">
-                Showing 1 to 10 of {totalResults} results
-              </p>
-            </div>
-          </div>
+    <div className="bg-white border-t border-gray-200 h-[60px] relative shrink-0 w-full">
+      <div className="box-border content-stretch flex h-[60px] items-center justify-between pb-0 pt-px px-[16px] relative w-full">
+        {/* Results count - Left */}
+        <div className="relative shrink-0">
+          <p className="font-['Inter:Regular',_sans-serif] font-normal leading-[20px] not-italic relative shrink-0 text-[#6a7282] text-[14px] whitespace-pre-wrap">
+            Showing 1 to 10 of {totalResults} results
+          </p>
+        </div>
 
-          {/* Pagination */}
-          <div className="h-[32px] relative shrink-0 flex gap-[8px] items-center">
-            {/* Previous */}
-            <Button variant="outlined" size="md" disabled>
-              Previous
-            </Button>
+        {/* Pagination - Right */}
+        <div className="h-[32px] relative shrink-0 flex gap-[8px] items-center">
+          {/* Previous */}
+          <Button variant="outlined" size="md" disabled className="opacity-50">
+            Previous
+          </Button>
 
-            {/* Page 1 (active) */}
-            <Button variant="filled" size="md" className="min-w-[32px]">
-              1
-            </Button>
+          {/* Page 1 (active) */}
+          <Button variant="filled" size="md" className="min-w-[32px] px-[13px]">
+            1
+          </Button>
 
-            {/* Page 2 */}
-            <Button variant="outlined" size="md" className="min-w-[32px]">
-              2
-            </Button>
+          {/* Page 2 */}
+          <Button variant="outlined" size="md" className="min-w-[32px] px-[13px]">
+            2
+          </Button>
 
-            {/* Next */}
-            <Button variant="outlined" size="md">
-              Next
-            </Button>
-          </div>
+          {/* Next */}
+          <Button variant="outlined" size="md">
+            Next
+          </Button>
         </div>
       </div>
     </div>
@@ -686,7 +678,7 @@ function TableFooter({ totalResults }: { totalResults: number }) {
 }
 
 // Main Table Component (exact from Figma)
-export function KIXDataTableNew({ title = "My Open Tickets", data, onRowClick, allowCollapse = true, className }: DataTableProps) {
+export function KIXDataTableNew({ title = "My Open Tickets", data, onRowClick, allowCollapse = true, className, isTicketsPage = false }: DataTableProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
@@ -698,10 +690,11 @@ export function KIXDataTableNew({ title = "My Open Tickets", data, onRowClick, a
         isCollapsed={isCollapsed}
         onToggle={() => setIsCollapsed(!isCollapsed)}
         allowCollapse={allowCollapse}
+        isTicketsPage={isTicketsPage}
       />
 
       <div 
-        className="bg-white relative flex-1 flex flex-col min-h-0 w-full overflow-hidden transition-all duration-300 ease-in-out"
+        className={`${isTicketsPage ? '' : 'bg-white'} relative flex-1 flex flex-col min-h-0 w-full overflow-hidden transition-all duration-300 ease-in-out`}
         style={{
           maxHeight: allowCollapse && isCollapsed ? '0px' : undefined,
           opacity: allowCollapse && isCollapsed ? 0 : 1,
@@ -710,27 +703,32 @@ export function KIXDataTableNew({ title = "My Open Tickets", data, onRowClick, a
         }}
       >
         <div className="box-border content-stretch flex flex-col gap-[16px] items-start p-[16px] relative w-full flex-1 min-h-0">
-            {/* Toolbar */}
-            <div className="flex-shrink-0">
-              <TableToolbar />
+          {/* Toolbar */}
+          <div className="flex-shrink-0 w-full">
+            <TableToolbar />
+          </div>
+
+          {/* Card Content - Flex column with fixed header/footer, scrollable body */}
+          <div 
+            className="bg-white content-stretch flex flex-col items-start relative flex-1 min-h-0 w-full rounded-[12px]"
+            style={isTicketsPage ? { maxHeight: '640px', overflow: 'hidden' } : {}}
+          >
+            {/* Table Header - Fixed */}
+            <div className="flex-shrink-0 w-full">
+              <TableHeader />
             </div>
 
-            {/* Card Content */}
-            <div className="bg-white content-stretch flex flex-col items-start justify-between overflow-hidden relative flex-1 min-h-0 w-full">
-              {/* Table Header */}
-              <div className="flex-shrink-0">
-                <TableHeader />
-              </div>
+            {/* Table Body - Scrollable */}
+            <div className="flex-1 min-h-0 overflow-y-auto w-full">
+              <TableBody data={data} onRowClick={onRowClick} isTicketsPage={isTicketsPage} />
+            </div>
 
-              {/* Table Body */}
-              <TableBody data={data} onRowClick={onRowClick} />
-
-              {/* Table Footer */}
-              <div className="flex-shrink-0">
-                <TableFooter totalResults={data.length} />
-              </div>
+            {/* Table Footer - Fixed */}
+            <div className="flex-shrink-0 w-full">
+              <TableFooter totalResults={data.length} />
             </div>
           </div>
+        </div>
       </div>
     </div>
   );
