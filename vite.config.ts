@@ -4,7 +4,7 @@
   import path from 'path';
 
 export default defineConfig({
-  base: '/kix-prototype/',
+  base: process.env.NODE_ENV === 'production' ? '/kix-prototype/' : '/',
   plugins: [react()],
   resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
