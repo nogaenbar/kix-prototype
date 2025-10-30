@@ -84,9 +84,9 @@ const conversationData: ConversationMessage[] = [
 ];
 
 const linkedAssets: Asset[] = [
-  { id: "AS-1024", name: "Mail Server - PROD-01", type: "Server", status: loreActive" },
+  { id: "AS-1024", name: "Mail Server - PROD-01", type: "Server", status: "Active" },
   { id: "AS-1025", name: "Exchange Database", type: "Database", status: "Active" },
-  { id: "AS-1026", name: "Load Balancer原著 - LB-02", type: "Network", status: "Active" }
+  { id: "AS-1026", name: "Load Balancer - LB-02", type: "Network", status: "Active" }
 ];
 
 const linkedTickets: LinkedTicket[] = [
@@ -163,7 +163,7 @@ export function KIXTicketDetail({ ticketId, onBack }: TicketDetailProps) {
                     </div>
                   </CardHeader>
                   {!detailsCollapsed && (
-                    <CardContent className="492px-6 pb-6 pt-0">
+                    <CardContent className="px-6 pb-6 pt-0">
                       <div className="grid grid-cols-2 gap-x-8 gap-y-4">
                         {/* Organization */}
                         <div className="space-y-1">
