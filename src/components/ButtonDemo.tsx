@@ -5,7 +5,7 @@ import { Plus, Download, ArrowRight, Search, Calendar, ChevronDown, Filter, Arro
  * ButtonDemo - Comprehensive showcase of all KIX Button variants
  * 
  * This component demonstrates:
- * - All variants: filled, outlined, ghost
+ * - All variants: filled, outlined, transparent
  * - All sizes: lg, md, sm, icon-*
  * - All states: normal, hover, disabled
  * - Icon configurations: leading, trailing, both, icon-only
@@ -98,25 +98,25 @@ export function ButtonDemo() {
               </div>
             </div>
 
-            {/* Ghost Variant */}
+            {/* Transparent Variant */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground">Ghost (Transparent)</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">Transparent</h3>
               <div className="flex flex-wrap gap-4 items-center">
-                <Button variant="ghost" size="lg">Label Only</Button>
-                <Button variant="ghost" size="lg">
+                <Button variant="transparent" size="lg">Label Only</Button>
+                <Button variant="transparent" size="lg">
                   <Plus />
                   Leading Icon
                 </Button>
-                <Button variant="ghost" size="lg">
+                <Button variant="transparent" size="lg">
                   Trailing Icon
                   <ArrowRight />
                 </Button>
-                <Button variant="ghost" size="lg">
+                <Button variant="transparent" size="lg">
                   <Plus />
                   Both Icons
                   <ChevronDown />
                 </Button>
-                <Button variant="ghost" size="lg" disabled>
+                <Button variant="transparent" size="lg" disabled>
                   Disabled
                 </Button>
               </div>
@@ -199,25 +199,25 @@ export function ButtonDemo() {
               </div>
             </div>
 
-            {/* Ghost Variant */}
+            {/* Transparent Variant */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground">Ghost (Transparent)</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">Transparent</h3>
               <div className="flex flex-wrap gap-4 items-center">
-                <Button variant="ghost" size="md">Label Only</Button>
-                <Button variant="ghost" size="md">
+                <Button variant="transparent" size="md">Label Only</Button>
+                <Button variant="transparent" size="md">
                   <Download />
                   Leading Icon
                 </Button>
-                <Button variant="ghost" size="md">
+                <Button variant="transparent" size="md">
                   Trailing Icon
                   <ArrowRight />
                 </Button>
-                <Button variant="ghost" size="md">
+                <Button variant="transparent" size="md">
                   <Filter />
                   Both Icons
                   <ChevronDown />
                 </Button>
-                <Button variant="ghost" size="md" disabled>
+                <Button variant="transparent" size="md" disabled>
                   Disabled
                 </Button>
               </div>
@@ -233,7 +233,7 @@ export function ButtonDemo() {
                 <Button variant="outlined" size="icon-md">
                   <Filter />
                 </Button>
-                <Button variant="ghost" size="icon-md">
+                <Button variant="transparent" size="icon-md">
                   <Settings />
                 </Button>
                 <Button variant="filled" size="icon-md" disabled>
@@ -300,25 +300,25 @@ export function ButtonDemo() {
               </div>
             </div>
 
-            {/* Ghost Variant */}
+            {/* Transparent Variant */}
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground">Ghost (Transparent)</h3>
+              <h3 className="text-sm font-medium text-muted-foreground">Transparent</h3>
               <div className="flex flex-wrap gap-4 items-center">
-                <Button variant="ghost" size="sm">Label Only</Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="transparent" size="sm">Label Only</Button>
+                <Button variant="transparent" size="sm">
                   <Plus />
                   Leading Icon
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="transparent" size="sm">
                   Trailing
                   <ArrowRight />
                 </Button>
-                <Button variant="ghost" size="sm">
+                <Button variant="transparent" size="sm">
                   <Plus />
                   Both
                   <ChevronDown />
                 </Button>
-                <Button variant="ghost" size="sm" disabled>
+                <Button variant="transparent" size="sm" disabled>
                   Disabled
                 </Button>
               </div>
@@ -334,7 +334,7 @@ export function ButtonDemo() {
                 <Button variant="outlined" size="icon-sm">
                   <Filter />
                 </Button>
-                <Button variant="ghost" size="icon-sm">
+                <Button variant="transparent" size="icon-sm">
                   <X />
                 </Button>
                 <Button variant="filled" size="icon-sm" disabled>
@@ -405,7 +405,7 @@ export function ButtonDemo() {
                 <Button variant="outlined" size="lg">
                   Cancel
                 </Button>
-                <Button variant="ghost" size="lg">
+                <Button variant="transparent" size="lg">
                   Delete
                   <Trash2 />
                 </Button>
@@ -422,10 +422,10 @@ export function ButtonDemo() {
                 <Button variant="outlined" size="icon-md">
                   <Filter />
                 </Button>
-                <Button variant="ghost" size="icon-md">
+                <Button variant="transparent" size="icon-md">
                   <Settings />
                 </Button>
-                <Button variant="ghost" size="icon-sm">
+                <Button variant="transparent" size="icon-sm">
                   <X />
                 </Button>
               </div>

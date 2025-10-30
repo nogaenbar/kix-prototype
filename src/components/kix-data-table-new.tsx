@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
-import { IconButton } from "./ui/icon-button";
-import { Input } from "./ui/input";
-import { Checkbox } from "./ui/checkbox";
-import { Badge } from "./ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { IconButton } from "@/components/ui/icon-button";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { 
   Search, 
   Filter, 
@@ -20,7 +20,7 @@ import {
   ArrowUp,
   ArrowUpDown
 } from "lucide-react";
-import svgPaths from "../imports/svg-b99b8ujj5u";
+import svgPaths from "@/imports/svg-b99b8ujj5u";
 
 interface TicketData {
   id: string;
