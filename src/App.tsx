@@ -1,3 +1,4 @@
+import { Routes, Route, Navigate, useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState, lazy, Suspense } from "react";
 import { KIXAppShell } from "./components/kix-app-shell";
 import { Button } from "./components/ui/button";
@@ -199,91 +200,46 @@ const myTeamsData = [
   }
 ];
 
-export default function App() {
-  // Check URL hash for component-library route
-  const isComponentLibrary = window.location.hash === '#/component-library' || 
-                             window.location.pathname === '/component-library';
-  
-  const [currentPage, setCurrentPage] = useState<string>("dashboard");
-  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(null);
-  const [activeFilters, setActiveFilters] = useState<FilterChip[]>([]);
-  const [openWorkTabs, setOpenWorkTabs] = useState<string[]>([]);
-  const [activeWorkTab, setActiveWorkTab] = useState<string | null>(null);
+// Helper to map page IDs to routes
+const getActivePageFromPath = (pathname: string): string => {
+  if (pathname.startsWith("/tickets/")) return "ticket-detail";
+  if (pathname === "/tickets") return "tickets";
+  if (pathname === "/dashboard" || pathname === "/") return "dashboard";
+  return "dashboard";
+};
 
-  // Navigation handler
+// Helper to map page IDs to routes for navigation
+const navigateToPage = (navigate: ReturnType<typeof useNavigate>, pageId: string) => {
+  if (pageId === "dashboard") {
+    navigate("/dashboard");
+  } else if (pageId === "tickets") {
+    navigate("/tickets");
+  } else if (pageId.startsWith("ticket-")) {
+    // Handle ticket detail - would need ticket ID
+    navigate("/tickets");
+  }
+};
+
+// Dashboard Component
+function DashboardPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleNavigation = (pageId: string) => {
-    setCurrentPage(pageId);
+    navigateToPage(navigate, pageId);
   };
 
-  // Tickets page handlers
-  const [activeTicketView, setActiveTicketView] = useState<string>("all-tickets");
-
-  const handleViewClick = (viewId: string) => {
-    console.log("View clicked:", viewId);
-    setActiveTicketView(viewId);
-  };
-
-  const handleNewViewClick = () => {
-    console.log("New view clicked");
-  };
-
-  const handleFilterRemove = (filterId: string) => {
-    setActiveFilters(prev => prev.filter(f => f.id !== filterId));
-  };
-
-  const handleClearAllFilters = () => {
-    setActiveFilters([]);
-  };
-
-  const handleFilterApply = (filterId: string, filterData: any) => {
-    const newFilter: FilterChip = {
-      id: filterId,
-      label: "Team",
-      value: filterData.name
-    };
-    
-    setActiveFilters(prev => {
-      const filtered = prev.filter(f => f.id !== filterId);
-      return [...filtered, newFilter];
-    });
-  };
-
-  const handleTicketClick = (ticketId: string) => {
-    // Navigate to ticket detail page
-    setSelectedTicketId(ticketId);
-    setCurrentPage("ticket-detail");
-    console.log("Ticket clicked:", ticketId);
-  };
-
-  // Handle ticket row clicks from Dashboard tables - navigate to Ticket Detail
   const handleDashboardTicketClick = (ticketId: string) => {
-    // Navigate directly to ticket detail page
-    setSelectedTicketId(ticketId);
-    setCurrentPage("ticket-detail");
-    console.log("Dashboard ticket clicked, navigating to ticket detail:", ticketId);
+    navigate(`/tickets/${ticketId}`);
   };
 
-  // Handle work tab close from tickets page
-  const handleWorkTabClose = (tabId: string) => {
-    setOpenWorkTabs(prev => prev.filter(id => id !== tabId));
-    
-    // If we're closing the active tab, set active to the next available tab
-    if (activeWorkTab === tabId) {
-      const remainingTabs = openWorkTabs.filter(id => id !== tabId);
-      setActiveWorkTab(remainingTabs.length > 0 ? remainingTabs[remainingTabs.length - 1] : null);
-    }
-    
-    console.log("Work tab closed:", tabId);
-  };
-
-  // Dashboard never shows work tabs - always clean overview
-  const renderDashboard = () => (
+  return (
     <KIXAppShell 
       title="Dashboard"
       showWorkTabs={false}
       showPageHeader={false}
       onNavigation={handleNavigation}
-      activePage={currentPage}
+      activePage={getActivePageFromPath(location.pathname)}
       workTabs={[]}
       onWorkTabClick={undefined}
       onWorkTabClose={undefined}
@@ -409,15 +365,88 @@ export default function App() {
       </Suspense>
     </KIXAppShell>
   );
+}
 
-  // Tickets page shows work tabs when tickets are open
-  const renderTickets = () => (
+// Tickets Page Component
+function TicketsPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [activeFilters, setActiveFilters] = useState<FilterChip[]>([]);
+  const [openWorkTabs, setOpenWorkTabs] = useState<string[]>([]);
+  const [activeWorkTab, setActiveWorkTab] = useState<string | null>(null);
+  const [activeTicketView, setActiveTicketView] = useState<string>("all-tickets");
+
+  const handleNavigation = (pageId: string) => {
+    navigateToPage(navigate, pageId);
+  };
+
+  const handleViewClick = (viewId: string) => {
+    console.log("View clicked:", viewId);
+    setActiveTicketView(viewId);
+  };
+
+  const handleNewViewClick = () => {
+    console.log("New view clicked");
+  };
+
+  const handleFilterRemove = (filterId: string) => {
+    setActiveFilters(prev => prev.filter(f => f.id !== filterId));
+  };
+
+  const handleClearAllFilters = () => {
+    setActiveFilters([]);
+  };
+
+  const handleFilterApply = (filterId: string, filterData: any) => {
+    const newFilter: FilterChip = {
+      id: filterId,
+      label: "Team",
+      value: filterData.name
+    };
+    
+    setActiveFilters(prev => {
+      const filtered = prev.filter(f => f.id !== filterId);
+      return [...filtered, newFilter];
+    });
+  };
+
+  const handleTicketClick = (ticketId: string) => {
+    navigate(`/tickets/${ticketId}`);
+    // Add to work tabs
+    setOpenWorkTabs(prev => {
+      if (!prev.includes(ticketId)) {
+        return [...prev, ticketId];
+      }
+      return prev;
+    });
+    setActiveWorkTab(ticketId);
+    console.log("Ticket clicked:", ticketId);
+  };
+
+  const handleWorkTabClose = (tabId: string) => {
+    setOpenWorkTabs(prev => prev.filter(id => id !== tabId));
+    
+    if (activeWorkTab === tabId) {
+      const remainingTabs = openWorkTabs.filter(id => id !== tabId);
+      if (remainingTabs.length > 0) {
+        setActiveWorkTab(remainingTabs[remainingTabs.length - 1]);
+        navigate(`/tickets/${remainingTabs[remainingTabs.length - 1]}`);
+      } else {
+        setActiveWorkTab(null);
+        navigate("/tickets");
+      }
+    }
+    
+    console.log("Work tab closed:", tabId);
+  };
+
+  return (
     <KIXAppShell 
       title="Tickets"
       showWorkTabs={openWorkTabs.length > 0}
       showPageHeader={false}
       onNavigation={handleNavigation}
-      activePage={currentPage}
+      activePage={getActivePageFromPath(location.pathname)}
       workTabs={openWorkTabs}
       activeWorkTab={activeWorkTab}
       onWorkTabClick={handleTicketClick}
@@ -455,15 +484,29 @@ export default function App() {
       </div>
     </KIXAppShell>
   );
+}
 
-  // Ticket Detail page
-  const renderTicketDetail = () => (
+// Ticket Detail Page Component
+function TicketDetailPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = useParams<{ id: string }>();
+
+  const handleNavigation = (pageId: string) => {
+    navigateToPage(navigate, pageId);
+  };
+
+  const handleBack = () => {
+    navigate("/tickets");
+  };
+
+  return (
     <KIXAppShell 
-      title={`Ticket #${selectedTicketId}`}
+      title={`Ticket #${id}`}
       showWorkTabs={false}
       showPageHeader={false}
       onNavigation={handleNavigation}
-      activePage={currentPage}
+      activePage={getActivePageFromPath(location.pathname)}
       workTabs={[]}
       onWorkTabClick={undefined}
       onWorkTabClose={undefined}
@@ -471,29 +514,41 @@ export default function App() {
       <div className="col-span-12 h-full -mx-6 -my-6">
         <Suspense fallback={<LoadingSpinner />}>
           <KIXTicketDetail 
-            ticketId={selectedTicketId || "202590"} 
-            onBack={() => {
-              setCurrentPage("tickets");
-              setSelectedTicketId(null);
-            }}
+            ticketId={id || "202590"} 
+            onBack={handleBack}
           />
         </Suspense>
       </div>
     </KIXAppShell>
   );
+}
 
-  // Render Component Library if route matches
-  if (isComponentLibrary) {
-    return <ComponentLibrary />;
-  }
+// Component Library Page
+function ComponentLibraryPage() {
+  return <ComponentLibrary />;
+}
 
+// Main App Component with Routing
+export default function App() {
   return (
-    <div className="flex overflow-hidden w-screen h-screen">
-      {/* Main Content */}
-      {currentPage === "button-demo" ? <ButtonDemo /> :
-       currentPage === "ticket-detail" ? renderTicketDetail() :
-       currentPage === "tickets" ? renderTickets() : 
-       renderDashboard()}
-    </div>
+    <Routes>
+      {/* Root redirects to dashboard */}
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      
+      {/* Dashboard */}
+      <Route path="/dashboard" element={<DashboardPage />} />
+      
+      {/* Tickets Page */}
+      <Route path="/tickets" element={<TicketsPage />} />
+      
+      {/* Ticket Detail */}
+      <Route path="/tickets/:id" element={<TicketDetailPage />} />
+      
+      {/* Component Library */}
+      <Route path="/component-library" element={<ComponentLibraryPage />} />
+      
+      {/* Fallback - redirect to dashboard */}
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+    </Routes>
   );
 }
