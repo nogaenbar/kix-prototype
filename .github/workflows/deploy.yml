@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - cleanup-unused-code
   workflow_dispatch:
 
 permissions:
