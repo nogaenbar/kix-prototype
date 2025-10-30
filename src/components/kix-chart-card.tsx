@@ -1,5 +1,4 @@
-import { Card, CardContent, CardHeader } from "./ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 interface ChartCardProps {
   title: string;
@@ -9,12 +8,13 @@ interface ChartCardProps {
 }
 
 // KIX Chart Colors - primary green with neutral comparisons
+// Using hex values to ensure they work even if CSS variables aren't defined
 const KIX_CHART_COLORS = [
-  'var(--chart-primary)',     // Primary green for main data
-  'var(--chart-secondary)',   // Neutral for comparisons  
-  'var(--chart-tertiary)',    // Lighter neutral
-  '#64748B',                  // Additional neutrals
-  '#94A3B8'
+  '#407A3F',  // Primary green for main data
+  '#64748B',  // Neutral gray for comparisons
+  '#94A3B8',  // Lighter neutral
+  '#CBD5E1',  // Very light neutral
+  '#E2E8F0'   // Lightest neutral
 ];
 
 export function KIXChartCard({ title, type, data, className = "" }: ChartCardProps) {
@@ -22,8 +22,11 @@ export function KIXChartCard({ title, type, data, className = "" }: ChartCardPro
     switch (type) {
       case "bar":
         return (
-          <ResponsiveContainer width={298} height={200}>
-            <BarChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 35 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart 
+              data={data} 
+              margin={{ top: 5, right: 15, left: 10, bottom: 25 }}
+            >
               <CartesianGrid 
                 strokeDasharray="3 3" 
                 stroke="#CBD5E1" 
@@ -31,14 +34,15 @@ export function KIXChartCard({ title, type, data, className = "" }: ChartCardPro
               />
               <XAxis 
                 dataKey="name" 
-                tick={{ fontSize: 12, fill: '#64748B' }}
+                tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'Inter, sans-serif' }}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis 
-                tick={{ fontSize: 12, fill: '#64748B' }}
+                tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'Inter, sans-serif' }}
                 tickLine={false}
                 axisLine={false}
+                width={30}
               />
               <Bar 
                 dataKey="value" 
@@ -51,8 +55,12 @@ export function KIXChartCard({ title, type, data, className = "" }: ChartCardPro
       
       case "horizontal-bar":
         return (
-          <ResponsiveContainer width={298} height={200}>
-            <BarChart data={data} layout="horizontal" margin={{ top: 5, right: 10, left: 50, bottom: 5 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart 
+              data={data} 
+              layout="horizontal" 
+              margin={{ top: 5, right: 10, left: 45, bottom: 5 }}
+            >
               <CartesianGrid 
                 strokeDasharray="3 3" 
                 stroke="#CBD5E1" 
@@ -60,17 +68,17 @@ export function KIXChartCard({ title, type, data, className = "" }: ChartCardPro
               />
               <XAxis 
                 type="number"
-                tick={{ fontSize: 12, fill: '#64748B' }}
+                tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'Inter, sans-serif' }}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis 
                 type="category"
                 dataKey="name"
-                tick={{ fontSize: 12, fill: '#64748B' }}
+                tick={{ fontSize: 12, fill: '#64748B', fontFamily: 'Inter, sans-serif' }}
                 tickLine={false}
                 axisLine={false}
-                width={45}
+                width={42}
               />
               <Bar 
                 dataKey="value" 
@@ -83,7 +91,7 @@ export function KIXChartCard({ title, type, data, className = "" }: ChartCardPro
       
       case "pie":
         return (
-          <ResponsiveContainer width={298} height={200}>
+          <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
@@ -108,42 +116,33 @@ export function KIXChartCard({ title, type, data, className = "" }: ChartCardPro
   };
 
   return (
-    <div className={`flex flex-col justify-center items-center p-0 w-full h-[306px] bg-white rounded-[12px] ${className}`}>
-      {/* CardHeader - Exact Figma specifications */}
-      <div className="flex flex-col items-start px-6 py-4 gap-[10px] w-full h-14 bg-white rounded-[12px] flex-none order-0 self-stretch flex-grow-0">
-        <div className="flex flex-row justify-center items-center p-0 gap-[10px] w-[152px] h-6 rounded-0 flex-none order-0 flex-grow-0">
-          <h3 className="h-6 font-['Inter'] font-semibold text-base leading-6 text-slate-900 flex-none order-0 flex-grow-0 truncate">{title}</h3>
-        </div>
+    <div className={`flex flex-col w-full h-[306px] bg-white rounded-[12px] ${className}`}>
+      {/* CardHeader - Fixed height 56px matching Figma */}
+      <div className="flex flex-col items-start px-6 py-4 w-full h-14 border-b border-neutral-200 flex-shrink-0">
+        <h3 className="font-['Inter',sans-serif] font-semibold text-base leading-6 text-slate-900 truncate">{title}</h3>
       </div>
       
-      {/* CardContent - Exact Figma specifications */}
-      <div className="flex flex-col justify-center items-center px-4 py-0 gap-[10px] w-full h-[250px] bg-white rounded-[12px] flex-none order-1 self-stretch flex-grow">
-        {/* Container - Exact Figma specifications */}
-        <div className="flex flex-col items-start p-0 w-[298px] h-[200px] bg-white rounded-[12px] flex-none order-0 flex-grow-0">
-          {/* Icon/Chart Container - Exact Figma specifications */}
-          <div className="w-[298px] h-[200px] bg-white rounded-[12px] flex-none order-0 flex-grow-0 relative overflow-hidden flex items-center justify-center">
-            {renderChart()}
-          </div>
+      {/* CardContent - Fixed height 250px matching Figma, proper centering */}
+      <div className="flex flex-col items-center justify-center px-4 py-6 w-full h-[250px] flex-shrink-0">
+        {/* Chart Container - Fixed height, centered */}
+        <div className="w-full h-[200px] flex items-center justify-center">
+          {renderChart()}
         </div>
         
-        {/* Legend - Only for pie charts, positioned outside Container */}
+        {/* Legend - Only for pie charts, positioned below chart */}
         {type === "pie" && (
-          <div className="flex flex-row items-center px-[38px] py-0 gap-4 w-full max-w-[337.91px] h-[15px] bg-white rounded-[12px] flex-none order-1 flex-grow-0">
+          <div className="flex flex-row items-center justify-center flex-wrap gap-4 mt-1 w-full">
             {data.map((entry, index) => (
-              <div key={`legend-${index}`} className="flex flex-row items-center p-0 gap-1 h-[15px] rounded-0 flex-none flex-grow-0">
-                {/* Icon */}
-                <div className="w-[14px] h-[14px] bg-white rounded-[12px] flex-none order-0 flex-grow-0 relative">
-                  <div 
-                    className="absolute h-[14px] left-0 right-0 top-1/2 -translate-y-1/2 rounded-full"
-                    style={{ background: KIX_CHART_COLORS[index % KIX_CHART_COLORS.length] }}
-                  />
-                </div>
-                {/* Text */}
-                <div className="flex flex-row items-center p-0 h-[15px] rounded-0 flex-none order-1 flex-grow-0">
-                  <p className="font-['Inter'] font-normal text-xs leading-[18px] text-center text-slate-500 whitespace-nowrap flex-none order-0 flex-grow-0">
-                    {entry.name}
-                  </p>
-                </div>
+              <div key={`legend-${index}`} className="flex flex-row items-center gap-2">
+                {/* Color indicator */}
+                <div 
+                  className="w-[14px] h-[14px] rounded-full flex-shrink-0"
+                  style={{ backgroundColor: KIX_CHART_COLORS[index % KIX_CHART_COLORS.length] }}
+                />
+                {/* Label */}
+                <p className="font-['Inter',sans-serif] font-normal text-xs leading-[18px] text-slate-500 whitespace-nowrap">
+                  {entry.name}
+                </p>
               </div>
             ))}
           </div>

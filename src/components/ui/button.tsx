@@ -1,50 +1,48 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot@1.1.2";
-import { cva, type VariantProps } from "class-variance-authority@0.7.1";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "./utils";
+import { Icon } from "./icon";
 
 /**
- * KIX Button Component - Pixel-perfect Figma implementation
- * Figma specs from node 143:3492
+ * KIX Button Component - Pure Tailwind Implementation
+ * Migrated from inline styles to pure Tailwind classes + React state
  * 
- * EXACT SIZES:
- * - Large: 36px height, 20px icons, 16px text, 12px radius, 16px padding, 4px gap
- * - Medium: 32px height, 16px icons, 14px text, 12px radius, 12px padding, 4px gap  
- * - Small: 24px height, 12px icons, 12px text, 8px radius, 8px padding, 2px gap
+ * SIZES:
+ * - Large: 36px height, 20x20px icons, 16px text, 12px radius, 16px padding, 4px gap
+ * - Medium: 32px height, 16x16px icons, 14px text, 12px radius, 12px padding, 4px gap
+ * - Small: 24px height, 12x12px icons, 12px text, 8px radius, 8px padding, 2px gap
+ * 
+ * VARIANTS:
+ * - Filled: Primary background with light text
+ * - Outlined: Transparent with border and primary text
+ * - Transparent: Transparent with primary text (no border)
  */
 
-// Base button styles using inline CSS to ensure they work
-const baseButtonStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  fontFamily: 'Inter, sans-serif',
-  fontWeight: 500,
-  whiteSpace: 'nowrap',
-  lineHeight: 0,
-  cursor: 'pointer',
-  border: '1px solid',
-  transition: 'all 0.15s ease-in-out',
-  flexShrink: 0,
-};
-
 const buttonVariants = cva(
-  "inline-flex items-center justify-center font-medium whitespace-nowrap leading-none cursor-pointer transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shrink-0",
+  [
+    "inline-flex items-center justify-center shrink-0",
+    "transition-colors duration-200 ease-in-out",
+    "cursor-pointer border border-solid",
+    "font-medium whitespace-nowrap leading-none",
+    "disabled:pointer-events-none disabled:opacity-50",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ring",
+  ].join(" "),
   {
     variants: {
       variant: {
-        filled: "bg-primary text-primary-foreground hover:bg-primary-hover active:bg-primary-pressed border-transparent",
-        outlined: "bg-white text-primary border-outline hover:bg-accent active:bg-accent/80",
-        ghost: "bg-transparent text-primary border-transparent hover:bg-accent active:bg-accent/80",
+        filled: "border-transparent",
+        outlined: "border-[rgba(64,122,63,0.2)] bg-white",
+        transparent: "border-transparent bg-transparent",
       },
       size: {
-        lg: "",
-        md: "",
-        sm: "",
-        "icon-lg": "",
-        "icon-md": "",
-        "icon-sm": "",
+        lg: "h-[36px] px-[16px] gap-[4px] rounded-[12px] text-[16px]",
+        md: "h-[32px] px-[12px] gap-[4px] rounded-[12px] text-[14px]",
+        sm: "h-[24px] px-[8px] gap-[2px] rounded-[8px] text-[12px]",
+        "icon-lg": "h-[36px] w-[36px] min-w-[36px] p-0 gap-0 rounded-[12px]",
+        "icon-md": "h-[32px] w-[32px] min-w-[32px] p-0 gap-0 rounded-[12px]",
+        "icon-sm": "h-[24px] w-[24px] min-w-[24px] p-0 gap-0 rounded-[8px]",
       },
     },
     defaultVariants: {
@@ -54,85 +52,125 @@ const buttonVariants = cva(
   },
 );
 
-const getSizeStyles = (size?: string, isIconOnly?: boolean): React.CSSProperties => {
-  if (size === "lg" || size === "icon-lg") {
-    return {
-      height: '36px',
-      minHeight: '36px',
-      borderRadius: '12px',
-      padding: isIconOnly ? '0' : '0 16px',
-      gap: isIconOnly ? '0' : '4px',
-      fontSize: '16px',
-      width: isIconOnly ? '36px' : 'auto',
-      minWidth: isIconOnly ? '36px' : 'auto',
-    };
-  } else if (size === "sm" || size === "icon-sm") {
-    return {
-      height: '24px',
-      minHeight: '24px',
-      borderRadius: '8px',
-      padding: isIconOnly ? '0' : '0 8px',
-      gap: isIconOnly ? '0' : '2px',
-      fontSize: '12px',
-      width: isIconOnly ? '24px' : 'auto',
-      minWidth: isIconOnly ? '24px' : 'auto',
-    };
-  }
-  // Default: md
-  return {
-    height: '32px',
-    minHeight: '32px',
-    borderRadius: '12px',
-    padding: isIconOnly ? '0' : '0 12px',
-    gap: isIconOnly ? '0' : '4px',
-    fontSize: '14px',
-    width: isIconOnly ? '32px' : 'auto',
-    minWidth: isIconOnly ? '32px' : 'auto',
-  };
-};
+// Variant color mapping for hover/active states
+const variantColorMap = {
+  filled: {
+    default: '#407a3f',
+    hover: '#365528',
+    active: '#24391b',
+  },
+  outlined: {
+    default: 'white',
+    hover: '#deeedd',
+    active: '#bcdcbc',
+  },
+  transparent: {
+    default: 'transparent',
+    hover: '#deeedd',
+    active: '#bcdcbc',
+  },
+} as const;
 
-const getIconSize = (size?: string): React.CSSProperties => {
-  if (size === "lg" || size === "icon-lg") return { width: '20px', height: '20px', flexShrink: 0 };
-  if (size === "sm" || size === "icon-sm") return { width: '12px', height: '12px', flexShrink: 0 };
-  return { width: '16px', height: '16px', flexShrink: 0 };
-};
+// Text color mapping
+const textColorMap = {
+  filled: '#f5faf5',
+  outlined: '#407a3f',
+  transparent: '#407a3f',
+} as const;
 
 export interface ButtonProps
-  extends Omit<React.ComponentProps<"button">, 'style'>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'style'>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, children, ...props }, ref) => {
+  ({ className, variant = "filled", size = "md", asChild = false, children, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    const isIconOnly = size?.startsWith('icon-');
+    const buttonSize = size || "md";
+    // Ensure variant is one of the valid values
+    const buttonVariant = (variant === "filled" || variant === "outlined" || variant === "transparent") 
+      ? variant 
+      : "filled";
+    const [isHovered, setIsHovered] = React.useState(false);
+    const [isActive, setIsActive] = React.useState(false);
     
-    // Apply icon sizing to all child SVG elements
-    const childrenWithIconSizing = React.Children.map(children, (child) => {
-      if (React.isValidElement(child) && child.type === 'svg') {
-        return React.cloneElement(child as React.ReactElement<any>, {
-          style: {
-            ...((child as React.ReactElement<any>).props.style || {}),
-            ...getIconSize(size || 'md'),
-          },
-        });
+    // Get colors for current state with fallback
+    const colors = variantColorMap[buttonVariant] || variantColorMap.filled;
+    const currentBgColor = disabled 
+      ? colors.default 
+      : (isActive ? colors.active : (isHovered ? colors.hover : colors.default));
+    
+    // Get text/icon color with fallback
+    const textColor = disabled 
+      ? (buttonVariant === "filled" ? "#f5faf5" : "#969696")
+      : (textColorMap[buttonVariant] || textColorMap.filled);
+    
+    // Process children: wrap icons with Icon component, preserve text
+    const processedChildren = React.Children.map(children, (child) => {
+      // Handle React elements (components)
+      if (React.isValidElement(child)) {
+        const childType = child.type;
+        
+        // Detect Lucide icons (forwardRef components), function components, or SVG elements
+        // Lucide icons are React.forwardRef, so typeof is "object" with $$typeof property
+        const isIcon = 
+          typeof childType === 'function' || 
+          childType === 'svg' ||
+          (typeof childType === 'object' && childType !== null && '$$typeof' in childType);
+        
+        if (isIcon) {
+          // Wrap icon in Icon component for proper sizing and stroke width
+          return (
+            <Icon 
+              key={child.key || undefined}
+              size={buttonSize === "lg" ? "lg" : buttonSize === "sm" ? "sm" : "md"}
+            >
+              {React.cloneElement(child as React.ReactElement<any>, {
+                style: { color: textColor },
+              })}
+            </Icon>
+          );
+        }
       }
+      
+      // Return text nodes and other non-icon children as-is
       return child;
     });
 
+    // Combined inline styles for dimensions and dynamic colors
+    const inlineStyles: React.CSSProperties = {
+      backgroundColor: currentBgColor,
+    };
+
+    // Handle disabled overlay for filled and outlined variants
+    const hasDisabledOverlay = disabled && (buttonVariant === "filled" || buttonVariant === "outlined");
+
     return (
       <Comp
-        data-slot="button"
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant: buttonVariant, size: buttonSize, className }), "relative")}
         style={{
-          ...baseButtonStyle,
-          ...getSizeStyles(size || 'md', isIconOnly),
+          ...inlineStyles,
+          color: textColor, // Explicit text color for non-icon children
         }}
+        onMouseEnter={() => !disabled && setIsHovered(true)}
+        onMouseLeave={() => {
+          setIsHovered(false);
+          setIsActive(false);
+        }}
+        onMouseDown={() => !disabled && setIsActive(true)}
+        onMouseUp={() => setIsActive(false)}
+        disabled={disabled}
         ref={ref}
         {...props}
       >
-        {childrenWithIconSizing}
+        {processedChildren}
+        {hasDisabledOverlay && (
+          <div 
+            className="absolute inset-0 bg-[rgba(205,205,205,0.48)] pointer-events-none"
+            style={{ borderRadius: buttonSize === "sm" ? "8px" : "12px" }}
+          />
+        )}
       </Comp>
     );
   },

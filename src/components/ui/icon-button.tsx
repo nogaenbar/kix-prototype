@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot@1.1.2";
-import { cva, type VariantProps } from "class-variance-authority@0.7.1";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "./utils";
+import { Icon } from "./icon";
 
 /**
  * KIX IconButton Component - Pure Tailwind Implementation
@@ -73,12 +74,7 @@ const variantColorMap = {
   },
 } as const;
 
-// Icon size mapping for React.cloneElement
-const iconSizeMap = {
-  lg: { width: '20px', height: '20px' },
-  md: { width: '16px', height: '16px' },
-  sm: { width: '12px', height: '12px' },
-} as const;
+// No longer needed - Icon component handles sizing
 
 export interface IconButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -98,17 +94,36 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     const colors = variantColorMap[buttonVariant];
     const currentBgColor = isActive ? colors.active : (isHovered ? colors.hover : colors.default);
     
-    // Clone icon with proper size and explicit color
+    // Get icon color based on variant
     const iconColor = buttonVariant === "filled" ? "#f5faf5" : "#407a3f";
-    const clonedChildren = React.Children.map(children, (child) => {
+    
+    // Wrap icon in Icon component for proper sizing and stroke width
+    const iconChildren = React.Children.map(children, (child) => {
+      // IconButton should only contain icons, but handle all cases
       if (React.isValidElement(child)) {
-        return React.cloneElement(child as React.ReactElement<any>, {
-          style: {
-            ...iconSizeMap[buttonSize],
-            color: iconColor,
-          },
-        });
+        const childType = child.type;
+        
+        // Detect Lucide icons (forwardRef components), function components, or SVG elements
+        // Lucide icons are React.forwardRef, so typeof is "object" with $$typeof property
+        const isIcon = 
+          typeof childType === 'function' || 
+          childType === 'svg' ||
+          (typeof childType === 'object' && childType !== null && '$$typeof' in childType);
+        
+        if (isIcon) {
+          return (
+            <Icon 
+              key={child.key || undefined}
+              size={buttonSize}
+            >
+              {React.cloneElement(child as React.ReactElement<any>, {
+                style: { color: iconColor },
+              })}
+            </Icon>
+          );
+        }
       }
+      
       return child;
     });
 
@@ -132,7 +147,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         {...props}
       >
-        {clonedChildren}
+        {iconChildren}
       </Comp>
     );
   },

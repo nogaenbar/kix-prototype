@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { IconButton } from "./ui/icon-button";
 import { Input } from "./ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { Badge } from "./ui/badge";
@@ -47,6 +48,7 @@ interface DataTableProps {
   showBulkActions?: boolean;
   onRowClick?: (ticketId: string) => void;
   className?: string;
+  allowCollapse?: boolean;
 }
 
 // Search Icon Component (exact from Figma)
@@ -132,11 +134,12 @@ function ActionIcon() {
 }
 
 // Card Header Component (exact from Figma)
-function CardHeader({ title, ticketCount, isCollapsed, onToggle }: {
+function CardHeader({ title, ticketCount, isCollapsed, onToggle, allowCollapse = true }: {
   title: string;
   ticketCount: number;
   isCollapsed: boolean;
   onToggle: () => void;
+  allowCollapse?: boolean;
 }) {
   return (
     <div 
@@ -157,109 +160,74 @@ function CardHeader({ title, ticketCount, isCollapsed, onToggle }: {
           <p className="font-['Inter',sans-serif] font-normal text-[14px] leading-[20px] text-[#6a7282] whitespace-nowrap">
             {ticketCount} tickets{isCollapsed ? ' • Collapsed' : ''}
           </p>
-          <button
-            onClick={onToggle}
-            className="relative rounded-[12px] shrink-0 size-[32px] flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
-          >
-            <div 
-              className="relative shrink-0 size-[16px] transition-transform duration-300 ease-in-out"
-              style={{ 
-                transform: isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)' 
+          {allowCollapse && (
+            <div
+              className="transition-transform duration-300 ease-in-out"
+              style={{
+                transform: isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)',
               }}
             >
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
-                <g>
-                  <path d="M12 10L8 6L4 10" stroke="var(--stroke-0, #4A5565)" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-                </g>
-              </svg>
+              <IconButton
+                variant="transparent"
+                size="md"
+                onClick={onToggle}
+                aria-label={isCollapsed ? "Expand table" : "Collapse table"}
+              >
+                <ChevronDown />
+              </IconButton>
             </div>
-          </button>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-// Table Toolbar Component (exact from Figma)
+// Table Toolbar Component (using new Input component)
 function TableToolbar() {
   return (
     <div className="content-stretch flex flex-col gap-[12px] items-start relative shrink-0 w-full">
       <div className="content-stretch flex items-center justify-between relative shrink-0 w-full">
         {/* Search */}
-        <div className="bg-white box-border content-stretch flex gap-[10px] h-[36px] items-center px-[12px] py-[10px] relative rounded-[12px] shrink-0 w-[280px]">
-          <div aria-hidden="true" className="absolute border border-neutral-200 border-solid inset-0 pointer-events-none rounded-[12px]" />
-          <SearchIcon />
-          <div className="box-border content-stretch flex items-center overflow-clip px-0 py-[4px] relative shrink-0">
-            <p className="font-['Inter:Regular',_sans-serif] font-normal leading-[normal] not-italic relative shrink-0 text-[14px] text-nowrap text-slate-500 whitespace-pre">Search tickets...</p>
-          </div>
+        <div className="w-[280px]">
+          <Input
+            size="md"
+            placeholder="Search tickets..."
+            leftIcon={<Search />}
+          />
         </div>
 
         {/* Action Buttons */}
         <div className="content-stretch flex gap-[8px] items-center relative shrink-0">
           {/* Last 30 days */}
-          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap whitespace-pre">Last 30 days</p>
-            <div className="relative shrink-0 size-[16px]">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
-                <g>
-                  <path d="M4 6L8 10L12 6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33" />
-                </g>
-              </svg>
-            </div>
-          </button>
+          <Button variant="outlined" size="md">
+            Last 30 days
+            <ChevronDown />
+          </Button>
 
           {/* Priority */}
-          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap whitespace-pre">Priority</p>
-            <div className="relative shrink-0 size-[16px]">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
-                <g>
-                  <path d="M4 6L8 10L12 6" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33" />
-                </g>
-              </svg>
-            </div>
-          </button>
+          <Button variant="outlined" size="md">
+            Priority
+            <ChevronDown />
+          </Button>
 
           {/* Filter */}
-          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <div className="relative shrink-0 size-[16px]">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
-                <g>
-                  <path d={svgPaths.p36bb6c80} stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-                </g>
-              </svg>
-            </div>
-            <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap whitespace-pre">Filter</p>
-          </button>
+          <Button variant="outlined" size="md">
+            <Filter />
+            Filter
+          </Button>
 
           {/* Sort */}
-          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <div className="relative shrink-0 size-[16px]">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
-                <g>
-                  <path d={svgPaths.pcaa3f40} stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33" />
-                  <path d="M11.3333 13.3333V2.66667" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33" />
-                  <path d={svgPaths.p216cf1e0} stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33" />
-                  <path d="M4.66667 2.66667V13.3333" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33" />
-                </g>
-              </svg>
-            </div>
-            <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap whitespace-pre">Sort</p>
-          </button>
+          <Button variant="outlined" size="md">
+            <ArrowUpDown />
+            Sort
+          </Button>
 
           {/* Export CSV */}
-          <button className="bg-white text-primary border border-outline hover:bg-accent active:bg-accent/80 rounded-[12px] h-[32px] px-[12px] gap-[8px] flex items-center justify-center font-medium transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2">
-            <div className="relative shrink-0 size-[16px]">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 16 16">
-                <g>
-                  <path d="M8 10V2" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-                  <path d={svgPaths.p23ad1400} stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-                  <path d={svgPaths.p3ee11f80} stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.33333" />
-                </g>
-              </svg>
-            </div>
-            <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap whitespace-pre">Export CSV</p>
-          </button>
+          <Button variant="outlined" size="md">
+            <Download />
+            Export CSV
+          </Button>
         </div>
       </div>
     </div>
@@ -665,7 +633,7 @@ function TicketRow({ ticket, onRowClick }: {
 // Table Body Component (exact from Figma)
 function TableBody({ data, onRowClick }: { data: TicketData[]; onRowClick?: (ticketId: string) => void }) {
   return (
-    <div className="content-stretch flex flex-col max-h-96 overflow-y-auto items-start relative shrink-0 w-full">
+    <div className="content-stretch flex flex-col flex-1 min-h-0 overflow-y-auto items-start relative w-full">
       {data.map((ticket) => (
         <TicketRow key={ticket.id} ticket={ticket} onRowClick={onRowClick} />
       ))}
@@ -690,42 +658,26 @@ function TableFooter({ totalResults }: { totalResults: number }) {
           </div>
 
           {/* Pagination */}
-          <div className="h-[32px] relative shrink-0 w-[232.375px]">
-            <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border content-stretch flex gap-[8px] h-[32px] items-center relative w-[232.375px]">
-              {/* Previous */}
-              <div className="basis-0 bg-white grow h-[32px] min-h-px min-w-px opacity-50 relative rounded-[12px] shrink-0">
-                <div aria-hidden="true" className="absolute border border-slate-300 border-solid inset-0 pointer-events-none rounded-[12px]" />
-                <div className="flex flex-row items-center justify-center size-full">
-                  <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border content-stretch flex gap-[6px] h-[32px] items-center justify-center px-[13px] py-px relative w-full">
-                    <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap text-slate-900 whitespace-pre">Previous</p>
-                  </div>
-                </div>
-              </div>
+          <div className="h-[32px] relative shrink-0 flex gap-[8px] items-center">
+            {/* Previous */}
+            <Button variant="outlined" size="md" disabled>
+              Previous
+            </Button>
 
-              {/* Page 1 (active) */}
-              <div className="bg-[#407a3f] h-[32px] relative rounded-[12px] shrink-0 w-[32.625px]">
-                <div aria-hidden="true" className="absolute border border-slate-300 border-solid inset-0 pointer-events-none rounded-[12px]" />
-                <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border content-stretch flex gap-[6px] h-[32px] items-center justify-center px-[13px] py-px relative w-[32.625px]">
-                  <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap text-white whitespace-pre">1</p>
-                </div>
-              </div>
+            {/* Page 1 (active) */}
+            <Button variant="filled" size="md" className="min-w-[32px]">
+              1
+            </Button>
 
-              {/* Page 2 */}
-              <div className="bg-white h-[32px] relative rounded-[12px] shrink-0 w-[34.594px]">
-                <div aria-hidden="true" className="absolute border border-slate-300 border-solid inset-0 pointer-events-none rounded-[12px]" />
-                <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border content-stretch flex gap-[6px] h-[32px] items-center justify-center px-[13px] py-px relative w-[34.594px]">
-                  <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap text-slate-900 whitespace-pre">2</p>
-                </div>
-              </div>
+            {/* Page 2 */}
+            <Button variant="outlined" size="md" className="min-w-[32px]">
+              2
+            </Button>
 
-              {/* Next */}
-              <div className="bg-white h-[32px] relative rounded-[12px] shrink-0 w-[57.438px]">
-                <div aria-hidden="true" className="absolute border border-slate-300 border-solid inset-0 pointer-events-none rounded-[12px]" />
-                <div className="bg-clip-padding border-0 border-[transparent] border-solid box-border content-stretch flex gap-[6px] h-[32px] items-center justify-center px-[13px] py-px relative w-[57.438px]">
-                  <p className="font-['Inter:Medium',_sans-serif] font-medium leading-[20px] not-italic relative shrink-0 text-[14px] text-nowrap text-slate-900 whitespace-pre">Next</p>
-                </div>
-              </div>
-            </div>
+            {/* Next */}
+            <Button variant="outlined" size="md">
+              Next
+            </Button>
           </div>
         </div>
       </div>
@@ -734,42 +686,49 @@ function TableFooter({ totalResults }: { totalResults: number }) {
 }
 
 // Main Table Component (exact from Figma)
-export function KIXDataTableNew({ title = "My Open Tickets", data, onRowClick }: DataTableProps) {
+export function KIXDataTableNew({ title = "My Open Tickets", data, onRowClick, allowCollapse = true, className }: DataTableProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="content-stretch flex flex-col items-start overflow-clip relative rounded-[12px] size-full">
+    <div className={`content-stretch flex flex-col items-start overflow-clip relative rounded-[12px] h-full ${className || ''}`}>
       {/* Card Header */}
       <CardHeader 
         title={title}
         ticketCount={data.length}
         isCollapsed={isCollapsed}
         onToggle={() => setIsCollapsed(!isCollapsed)}
+        allowCollapse={allowCollapse}
       />
 
       <div 
-        className="bg-white relative shrink-0 w-full overflow-hidden transition-all duration-300 ease-in-out"
+        className="bg-white relative flex-1 flex flex-col min-h-0 w-full overflow-hidden transition-all duration-300 ease-in-out"
         style={{
-          maxHeight: isCollapsed ? '0px' : '2000px',
-          opacity: isCollapsed ? 0 : 1,
-          marginTop: isCollapsed ? '0px' : '0px',
+          maxHeight: allowCollapse && isCollapsed ? '0px' : undefined,
+          opacity: allowCollapse && isCollapsed ? 0 : 1,
+          marginTop: allowCollapse && isCollapsed ? '0px' : '0px',
           borderRadius: '0 0 12px 12px',
         }}
       >
-        <div className="box-border content-stretch flex flex-col gap-[16px] items-start p-[16px] relative w-full">
+        <div className="box-border content-stretch flex flex-col gap-[16px] items-start p-[16px] relative w-full flex-1 min-h-0">
             {/* Toolbar */}
-            <TableToolbar />
+            <div className="flex-shrink-0">
+              <TableToolbar />
+            </div>
 
             {/* Card Content */}
-            <div className="bg-white content-stretch flex flex-col items-start justify-between overflow-clip relative shrink-0 w-full">
+            <div className="bg-white content-stretch flex flex-col items-start justify-between overflow-hidden relative flex-1 min-h-0 w-full">
               {/* Table Header */}
-              <TableHeader />
+              <div className="flex-shrink-0">
+                <TableHeader />
+              </div>
 
               {/* Table Body */}
               <TableBody data={data} onRowClick={onRowClick} />
 
               {/* Table Footer */}
-              <TableFooter totalResults={data.length} />
+              <div className="flex-shrink-0">
+                <TableFooter totalResults={data.length} />
+              </div>
             </div>
           </div>
       </div>
