@@ -5,27 +5,31 @@
     <title>KIX Vision UI V2</title>
     <script>
       // Single Page App routing for GitHub Pages
-      // Redirects all paths to index.html while preserving the path
-      // This allows React Router BrowserRouter to handle routing client-side
+      // This script takes the current path and redirects to index.html
+      // while preserving the path for React Router BrowserRouter
       
-      var pathSegmentsToKeep = 1; // For GitHub Pages base path /kix-prototype/
+      var segmentCount = 1; // Number of path segments for the base (e.g., /kix-prototype)
       var l = window.location;
       
-      // Extract the path after the base path
-      var pathSegments = l.pathname.split('/').filter(Boolean);
-      var basePath = pathSegments.slice(0, pathSegmentsToKeep).join('/');
-      var routePath = pathSegments.slice(pathSegmentsToKeep).join('/');
+      // Build the redirect path
+      var segments = l.pathname.split('/').filter(Boolean);
+      var baseSegments = segments.slice(0, segmentCount);
+      var routeSegments = segments.slice(segmentCount);
       
-      // Redirect to index.html with the route path preserved
-      var redirectPath = '/' + basePath + '/index.html' + 
-        (routePath ? '/' + routePath : '') +
-        (l.search || '') + 
-        (l.hash || '');
+      // Redirect to index.html with the route path as a hash for BrowserRouter to read
+      // React Router will handle converting this properly
+      var redirectPath = '/' + baseSegments.join('/') + '/index.html';
+      if (routeSegments.length > 0) {
+        redirectPath += '#' + '/' + routeSegments.join('/');
+      }
+      if (l.search) {
+        redirectPath += '?' + l.search.substring(1).replace(/&/g, '~and~');
+      }
       
       window.location.replace(redirectPath);
     </script>
   </head>
   <body>
-    Redirecting...
+    <p>Redirecting...</p>
   </body>
 </html>
